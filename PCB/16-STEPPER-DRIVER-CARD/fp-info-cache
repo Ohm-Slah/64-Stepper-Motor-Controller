@@ -1,4 +1,4 @@
-20169091653951766
+20170744699679513
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -57595,6 +57595,13 @@ MEC2-30-01-J-TH1-NP-WT-EDGECARD
 0
 60
 60
+LIBRARIES
+Pololu_Breakout_Slots
+Pololu Breakout 16-pin 15.2x20.3mm 0.6x0.8\
+Pololu Breakout
+0
+16
+16
 LIBRARIES
 SAMTEC_MEC2-30-01-X-TH1-NP-WT
 
