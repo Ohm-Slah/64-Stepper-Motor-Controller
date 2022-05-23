@@ -1,3 +1,6 @@
 (sym_lib_table
   (lib (name "Samtec")(type "KiCad")(uri "C:/Users/Elliot Eickholtz/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/Samtec.kicad_sym")(options "")(descr ""))
+  (lib (name "IPS1-125-01-S-D")(type "Legacy")(uri "C:/Users/Elliot Eickholtz/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/IPS1-125-01-S-D.lib")(options "")(descr ""))
+  (lib (name "IPT1-125-01-S-D")(type "Legacy")(uri "C:/Users/Elliot Eickholtz/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/IPT1-125-01-S-D.lib")(options "")(descr ""))
+  (lib (name "UMPT-06-01-X-RA-WT-P-X")(type "Legacy")(uri "C:/Users/Elliot Eickholtz/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/UMPT-06-01-X-RA-WT-P-X.lib")(options "")(descr ""))
 )
