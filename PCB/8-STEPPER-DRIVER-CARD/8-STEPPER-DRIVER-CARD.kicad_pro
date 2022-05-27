@@ -357,7 +357,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "16-STEPPER-DRIVER-CARD.kicad_pro",
+    "filename": "8-STEPPER-DRIVER-CARD.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -387,8 +387,8 @@
   },
   "pcbnew": {
     "last_paths": {
-      "gencad": "",
-      "idf": "",
+      "gencad": "8-STEPPER-DRIVER-CARD.cad",
+      "idf": "8-STEPPER-DRIVER-CARD.emn",
       "netlist": "",
       "specctra_dsn": "",
       "step": "",
@@ -417,7 +417,7 @@
     "meta": {
       "version": 1
     },
-    "net_format_name": "",
+    "net_format_name": "KiCad",
     "ngspice": {
       "fix_include_paths": true,
       "fix_passive_vals": false,
