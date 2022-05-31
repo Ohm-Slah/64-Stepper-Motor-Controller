@@ -391,7 +391,7 @@
       "idf": "8-STEPPER-DRIVER-CARD.emn",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "8-STEPPER-DRIVER-CARD.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
