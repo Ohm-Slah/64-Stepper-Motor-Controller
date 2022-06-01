@@ -395,7 +395,7 @@
   "pcbnew": {
     "last_paths": {
       "gencad": "",
-      "idf": "",
+      "idf": "32-STEPPER-DRIVER-BOARD.emn",
       "netlist": "",
       "specctra_dsn": "",
       "step": "",
