@@ -1,0 +1,24 @@
+M48
+; DRILL file {KiCad (6.0.4)} date Mon Jun  6 18:54:19 2022
+; FORMAT={-:-/ absolute / metric / decimal}
+; #@! TF.CreationDate,2022-06-06T18:54:19-04:00
+; #@! TF.GenerationSoftware,Kicad,Pcbnew,(6.0.4)
+; #@! TF.FileFunction,NonPlated,1,4,NPTH
+FMAT,2
+METRIC
+; #@! TA.AperFunction,NonPlated,NPTH,ComponentDrill
+T1C1.450
+%
+G90
+G05
+T1
+X58.25Y-19.51
+X58.25Y-44.51
+X58.25Y-69.51
+X58.25Y-94.51
+X119.75Y-20.51
+X119.75Y-45.51
+X119.75Y-70.51
+X119.75Y-95.51
+T0
+M30

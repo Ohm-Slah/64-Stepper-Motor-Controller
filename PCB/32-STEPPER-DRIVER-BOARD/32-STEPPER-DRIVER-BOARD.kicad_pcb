@@ -87,7 +87,7 @@
       (subtractmaskfromsilk false)
       (outputformat 1)
       (mirror false)
-      (drillshape 1)
+      (drillshape 0)
       (scaleselection 1)
       (outputdirectory "")
     )
@@ -903,7 +903,7 @@
     (pad "S2" thru_hole circle (at -9.55 1 90) (size 1.308 1.308) (drill 0.8) (layers *.Cu *.Mask) (tstamp 3ff58372-2ccc-472a-80bb-0ab7f894addc))
     (pad "S3" thru_hole circle (at 9.55 -1 90) (size 1.308 1.308) (drill 0.8) (layers *.Cu *.Mask) (tstamp f10b59bd-15e0-4a67-877c-fe530f1610de))
     (pad "S4" thru_hole circle (at 9.55 1 90) (size 1.308 1.308) (drill 0.8) (layers *.Cu *.Mask) (tstamp c4fd3e2d-0258-4bb7-ad93-ab4c0c54c1c1))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/UMPT-06-01-X-RA-WT-P-X.step"
+    (model "${LOCAL}/UMPT-06-01-X-RA-WT-P-X.step"
       (offset (xyz 0 -2.25 0))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -1730,7 +1730,7 @@
       (net 51 "+5V") (pinfunction "60") (pintype "passive") (tstamp 36f9ba47-5894-444f-b029-930d7c22cba6))
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp c1208c6e-87c6-43af-9305-4149b0f5dd62))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp f0407ff7-6bee-456a-8caf-296cbc17b512))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+    (model "${LOCAL}/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -4780,7 +4780,7 @@
       (net 51 "+5V") (pinfunction "60") (pintype "passive") (tstamp dab6105a-5a47-44fe-895a-787d986ad9cb))
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp abe917ab-dc5f-4111-b2b5-4e83051aae90))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 8690dea6-b4e9-4dfc-abe5-0bd60a9dc276))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+    (model "${LOCAL}/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -6764,7 +6764,7 @@
       (net 51 "+5V") (pinfunction "60") (pintype "passive") (tstamp 20609ba3-2b6c-4408-affd-88c0812d403e))
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 6b17aba7-a91a-453a-be9a-c8022843dd11))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 8d3b1602-01fa-44b4-aec8-4b95f8967c5a))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+    (model "${LOCAL}/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -7102,7 +7102,7 @@
       (net 51 "+5V") (pinfunction "60") (pintype "passive") (tstamp 0b7038da-1ce8-4878-85ab-a6fdfc4f7951))
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 6a9d6d1f-19d9-42b1-bc10-b872f6b94f93))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp c0ed67f6-b56f-4939-8224-009bd5023e80))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+    (model "${LOCAL}/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -9092,7 +9092,7 @@
       (net 375 "unconnected-(J5-Pad49)") (pinfunction "49") (pintype "passive") (tstamp dd088952-7172-48e2-b0c9-fc94b3ae3389))
     (pad "50" thru_hole circle locked (at -30.48 -1.27 90) (size 1.39 1.39) (drill 1.04) (layers *.Cu *.Mask)
       (net 376 "unconnected-(J5-Pad50)") (pinfunction "50") (pintype "passive") (tstamp 4b955b5c-03e5-4624-b491-59cac36331e9))
-    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/IPT1-125-01-S-D.step"
+    (model "${LOCAL}/IPT1-125-01-S-D.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -17112,6 +17112,9 @@
   (gr_text "DIR4" (at 108.754 51.558 90) (layer "F.SilkS") (tstamp b7c39487-8f7b-4aac-a9b0-b8fb38f6405f)
     (effects (font (size 1 1) (thickness 0.15)))
   )
+  (gr_text "32-STEPPER-DRIVER-BOARD REV A\nELLIOT EICKHOLTZ" (at 141.4272 55.2196 90) (layer "F.SilkS") (tstamp ba6161b1-4387-4af3-a3af-76ecd1d1384a)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
   (gr_text "DIR6" (at 80.381 26.516 90) (layer "F.SilkS") (tstamp bbdf220b-934f-4d69-ac02-7be868d5c712)
     (effects (font (size 1 1) (thickness 0.15)))
   )
@@ -17208,11 +17211,11 @@
 
   (via (at 42.926 115.189) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 06db6a89-72be-4278-98f9-9f8a31247209))
   (via (at 152.019 98.552) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 11f9bf88-2a2c-45cd-80cf-c5cb89a51506))
-  (via (at 127.127 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 15768733-777b-48df-bec2-cb35d0ad64e6))
+  (via (at 126.2126 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 15768733-777b-48df-bec2-cb35d0ad64e6))
   (via (at 148.971 102.616) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 16363f2e-6a23-47be-a5b0-193dd0694eb3))
   (via (at 58.039 98.679) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 191c4c60-3aa6-4c22-bf8e-76fa80a05b0f))
   (via (at 151.003 93.345) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 1d7c1a79-7c76-4a89-a2fa-ac777df094a1))
-  (via (at 151.257 18.288) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 1ff67ae4-85ad-43eb-9e80-8a48d7b30d56))
+  (via (at 142.7734 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 1ff67ae4-85ad-43eb-9e80-8a48d7b30d56))
   (via (at 148.971 94.615) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 211d6b24-3550-4870-be6e-4c78ab014f18))
   (via (at 49.657 17.653) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 26448b73-3706-496e-90ce-4eac5cd16815))
   (via (at 57.531 30.48) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 27a8009a-f73a-4b8f-8414-5eea213d05cd))
@@ -17220,7 +17223,7 @@
   (via (at 49.276 30.353) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 3327dfc1-0665-4aa6-a29f-1e7e3744a3ac))
   (via (at 151.003 94.615) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 3618882e-ac69-4441-8516-22467aae7302))
   (via (at 43.434 82.169) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 3621bfa2-64a9-4ae9-ba3a-960fe6573ab3))
-  (via (at 130.302 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 38c4c610-2823-47b4-a480-c6d5aeea929c))
+  (via (at 129.3876 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 38c4c610-2823-47b4-a480-c6d5aeea929c))
   (via (at 149.987 93.345) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 394eec15-74f4-45c1-bf5e-88f457f2b291))
   (via (at 50.038 82.169) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 476ff05c-20a6-4bd9-b163-b5e845ead3b7))
   (via (at 49.53 115.189) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 4b2fa801-60a9-45a7-a690-3def6d2b8de1))
@@ -17245,16 +17248,16 @@
   (via (at 152.019 93.345) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 88ecdd81-0908-4302-9344-59be80a833af))
   (via (at 45.847 30.353) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 8bc346eb-845b-4a39-b646-9b9975672448))
   (via (at 152.019 101.346) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 93f229f1-a20f-47b5-9e4a-c247345c3a76))
-  (via (at 144.653 18.288) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 9add43e6-349e-46ad-a47b-aca82bd41678))
+  (via (at 136.1694 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp 9add43e6-349e-46ad-a47b-aca82bd41678))
   (via (at 57.912 74.041) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp b061a439-6525-4152-a878-f68e8eb911bf))
   (via (at 43.307 47.752) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp b069ac7f-0868-4461-97f0-20019a8d53d6))
   (via (at 57.912 80.645) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp b1ed7bbc-6963-46e2-8981-03a43da62d9f))
   (via (at 149.987 97.282) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp b68ec2c0-c56c-4d26-a7bf-094b1cc15b8b))
   (via (at 58.039 105.283) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp bfaee45d-bc2c-4da2-8336-f5f357db297e))
-  (via (at 133.731 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp c3901c0c-ae3f-491d-8a6c-9e34f6b51880))
+  (via (at 132.8166 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp c3901c0c-ae3f-491d-8a6c-9e34f6b51880))
   (via (at 43.307 99.568) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp cb045e97-d6ed-4294-b2fc-7dd96cd1b851))
   (via (at 46.482 47.752) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp ce520b52-4134-4898-b657-5eda9eece784))
-  (via (at 147.828 18.288) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp d0f51ff1-7e67-4dbd-868f-2b7fafee9f61))
+  (via (at 139.3444 18.161) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp d0f51ff1-7e67-4dbd-868f-2b7fafee9f61))
   (via (at 148.971 98.552) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp d3f349b5-621c-4842-b177-abf3faaa5158))
   (via (at 46.101 115.189) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp d98defca-81e1-4330-8b05-dc650559ca40))
   (via (at 46.228 17.653) (size 0.45) (drill 0.2) (layers "F.Cu" "B.Cu") (free) (net 1) (tstamp dab3158e-ca37-4975-a4e7-51120c1b276e))
@@ -33931,7 +33934,7 @@
         (xy 153.505913 52.843702)
         (xy 153.666202 52.683413)
         (xy 153.796222 52.497724)
-        (xy 153.858579 52.364)
+        (xy 153.834402 52.415848)
         (xy 153.889699 52.297262)
         (xy 153.8897 52.297261)
         (xy 153.892022 52.29228)
