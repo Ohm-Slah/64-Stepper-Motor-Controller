@@ -4801,7 +4801,7 @@
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp abe917ab-dc5f-4111-b2b5-4e83051aae90))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 8690dea6-b4e9-4dfc-abe5-0bd60a9dc276))
     (model "${LOCAL}/8-STEPPER-CARD-ASSEMBLY v3.step"
-      (offset (xyz -158 0.75 123))
+      (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
