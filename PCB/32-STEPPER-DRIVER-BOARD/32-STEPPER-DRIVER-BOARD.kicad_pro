@@ -398,7 +398,7 @@
       "idf": "32-STEPPER-DRIVER-BOARD.emn",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "32-STEPPER-DRIVER-BOARD.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
