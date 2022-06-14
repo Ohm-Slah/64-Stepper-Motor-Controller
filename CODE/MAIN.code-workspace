@@ -1,7 +1,12 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"name": "Teensy 4.0 Driver",
+			"path": "DRIVER"
+		},
+		{
+			"name": "Teensy 4.1 Controller",
+			"path": "CONTROLLER"
 		}
 	],
 	"settings": {
