@@ -164,10 +164,10 @@ class ShiftRegisterControl
 {
 // Class to control the 4 serial lines per 32 motors to control.
     public:
-        ShiftRegisterControl(Motor motors[32])
-        {
-            _motors = motors;
-        }
+        // ShiftRegisterControl(Motor motors[32])
+        // {
+        //     _motors = motors;
+        // }
 
     private:
         Motor _motors[32];
