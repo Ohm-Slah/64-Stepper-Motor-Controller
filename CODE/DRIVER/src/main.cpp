@@ -75,11 +75,29 @@ int8_t pinArray[] = {
   A1STEP4, A2STEP4, A3STEP4, A4STEP4, A5STEP4, A6STEP4, A7STEP4, A8STEP4
 };
 
+#define DIR 23
+#define STEP 22
+
+
 void setup() {
   Serial.begin(115200);
-  for(int i=0; i<32; i++) pinMode(i, OUTPUT);
+  //for(int i=0; i<32; i++) pinMode(i, OUTPUT);
+  pinMode(DIR, OUTPUT);
+  pinMode(STEP, OUTPUT);
+  digitalWrite(DIR, LOW);
+  digitalWrite(STEP, LOW);
+  
 }
 
 void loop() {
+  for(int i=0; i<200; i++) 
+  {
+    digitalWrite(STEP, HIGH);
+    delayMicroseconds(1);
+    digitalWrite(STEP, LOW);
+    delay(10);
+  }
+  Serial.println("DONE");
+  delay(2500);
   
 }
