@@ -1,12 +1,62 @@
 {
 	"folders": [
 		{
-			"path": "CONTROLLER"
+			"name": "Teensy 4.0 Driver",
+			"path": "DRIVER"
 		},
 		{
-			"name": "DRIVER",
-			"path": "DRIVER"
+			"name": "Teensy 4.1 Controller",
+			"path": "CONTROLLER"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"better-comments.tags": [
+
+			{
+				"tag": "!",
+				"color": "#FF2D00",
+				"strikethrough": false,
+				"underline": false,
+				"backgroundColor": "transparent",
+				"bold": false,
+				"italic": false
+			},
+			{
+				"tag": "?",
+				"color": "#3498DB",
+				"strikethrough": false,
+				"underline": false,
+				"backgroundColor": "transparent",
+				"bold": false,
+				"italic": false
+			},
+			{
+				"tag": "//",
+				"color": "#474747",
+				"strikethrough": true,
+				"underline": false,
+				"backgroundColor": "transparent",
+				"bold": false,
+				"italic": false
+			},
+			{
+				"tag": "todo",
+				"color": "#FF8C00",
+				"strikethrough": false,
+				"underline": false,
+				"backgroundColor": "transparent",
+				"bold": false,
+				"italic": false
+			},
+			{
+				"tag": "*",
+				"color": "#4fd69c",
+				"strikethrough": false,
+				"underline": false,
+				"backgroundColor": "transparent",
+				"bold": false,
+				"italic": false
+			}
+		]
+	}
 }
