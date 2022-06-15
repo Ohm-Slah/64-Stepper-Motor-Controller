@@ -11,61 +11,8 @@
 
 #include <pitches.h>
 #include <DAQ.h>
-
-//  *Initialize all stepper driver freq pins to a unique identifier*  //
-//  *--------------------------------------------------------------*  //
-#define A1STEP1 -1 // Temporary placeholder
-#define A2STEP1 -1 // Temporary placeholder
-#define A3STEP1 -1 // Temporary placeholder
-#define A4STEP1 -1 // Temporary placeholder
-#define A5STEP1 -1 // Temporary placeholder
-#define A6STEP1 -1 // Temporary placeholder
-#define A7STEP1 -1 // Temporary placeholder
-#define A8STEP1 -1 // Temporary placeholder
-#define A1STEP2 -1 // Temporary placeholder
-#define A2STEP2 -1 // Temporary placeholder
-#define A3STEP2 -1 // Temporary placeholder
-#define A4STEP2 -1 // Temporary placeholder
-#define A5STEP2 -1 // Temporary placeholder
-#define A6STEP2 -1 // Temporary placeholder
-#define A7STEP2 -1 // Temporary placeholder
-#define A8STEP2 -1 // Temporary placeholder
-#define A1STEP3 -1 // Temporary placeholder
-#define A2STEP3 -1 // Temporary placeholder
-#define A3STEP3 -1 // Temporary placeholder
-#define A4STEP3 -1 // Temporary placeholder
-#define A5STEP3 -1 // Temporary placeholder
-#define A6STEP3 -1 // Temporary placeholder
-#define A7STEP3 -1 // Temporary placeholder
-#define A8STEP3 -1 // Temporary placeholder
-#define A1STEP4 -1 // Temporary placeholder
-#define A2STEP4 -1 // Temporary placeholder
-#define A3STEP4 -1 // Temporary placeholder
-#define A4STEP4 -1 // Temporary placeholder
-#define A5STEP4 -1 // Temporary placeholder
-#define A6STEP4 -1 // Temporary placeholder
-#define A7STEP4 -1 // Temporary placeholder
-#define A8STEP4 -1 // Temporary placeholder
-
-#define SER1 -1 // Temporary placeholder
-#define SER2 -1 // Temporary placeholder
-#define SER3 -1 // Temporary placeholder
-#define SER4 -1 // Temporary placeholder
-
-#define SRCLK1 -1 // Temporary placeholder
-#define SRCLK2 -1 // Temporary placeholder
-#define SRCLK3 -1 // Temporary placeholder
-#define SRCLK4 -1 // Temporary placeholder
-
-#define SRCLR1 -1 // Temporary placeholder
-#define SRCLR2 -1 // Temporary placeholder
-
-#define OE -1 // Temporary placeholder
-
-#define VCCVOLTAGEREADPIN -1 // Temporary placeholder
-#define FIVEVOLTAGEREADPIN -1 // Temporary placeholder
-
-//  *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*  //
+#include <Serial_Shift_Register.h>
+#include <Pinout.h>
 
 //  *Constants for calculation and balancing. Do not touch unless you know what you're doing.*    //
 //  *----------------------------------------------------------------------------------------*    //
@@ -99,6 +46,7 @@ class Motor
             _motorNumber = motorNumber;
             _xGridPositionTopLeftOrigin = xGridPositionTopLeftOrigin;
             _yGridPositionTopLeftOrigin = yGridPositionTopLeftOrigin;
+            _shiftRegisterNumber = _cardNumber;
 
             pinMode(_stepPin, OUTPUT);
             digitalWrite(_stepPin, LOW);
@@ -121,7 +69,7 @@ class Motor
         }
 
     private:
-        uint8_t _stepPin, _cardNumber, _motorNumber, _xGridPositionTopLeftOrigin, _yGridPositionTopLeftOrigin;
+        uint8_t _stepPin, _cardNumber, _motorNumber, _xGridPositionTopLeftOrigin, _yGridPositionTopLeftOrigin, _shiftRegisterNumber;
 
         void _generate_Acceleration_Points()
         {
@@ -158,19 +106,6 @@ class Motor
         {
 
         }
-};
-
-class ShiftRegisterControl
-{
-// Class to control the 4 serial lines per 32 motors to control.
-    public:
-        // ShiftRegisterControl(Motor motors[32])
-        // {
-        //     _motors = motors;
-        // }
-
-    private:
-        Motor _motors[32];
 };
 
 #endif // STEPPER_MUSIC_H
