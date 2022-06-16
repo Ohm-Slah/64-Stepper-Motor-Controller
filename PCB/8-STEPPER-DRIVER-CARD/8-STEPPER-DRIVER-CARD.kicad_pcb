@@ -425,7 +425,7 @@
       (net 90 "A8STEP") (pinfunction "STEP") (pintype "input") (tstamp 1f78fa40-7452-401c-8e3f-5b7ed017f314))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 91 "DIR8") (pinfunction "DIR") (pintype "input") (tstamp 41171d68-d3f9-4307-adc8-447b560a8e74))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -504,7 +504,7 @@
       (net 79 "A7STEP") (pinfunction "STEP") (pintype "input") (tstamp 28cb8a1f-2916-43e4-8d43-2cb24ceb9582))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 80 "DIR7") (pinfunction "DIR") (pintype "input") (tstamp daed47da-df41-4cd3-bc33-da55369ca133))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -583,7 +583,7 @@
       (net 35 "A3STEP") (pinfunction "STEP") (pintype "input") (tstamp 0ea8f5d9-b71d-4ff3-9021-47a31c2ad95a))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 36 "DIR3") (pinfunction "DIR") (pintype "input") (tstamp 08a7665c-eefb-4534-a36d-ae0adfe94045))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -713,7 +713,7 @@
       (net 24 "A2STEP") (pinfunction "STEP") (pintype "input") (tstamp 7f0d5027-90bb-401d-b01e-34d4eef8557b))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 25 "DIR2") (pinfunction "DIR") (pintype "input") (tstamp 7394e06c-fd22-4e78-bd6f-0cd966c73d18))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -1138,7 +1138,7 @@
       (net 13 "A1STEP") (pinfunction "STEP") (pintype "input") (tstamp 8ad5cf10-3fc3-4fa2-ad66-1acc7a893be7))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 14 "DIR1") (pinfunction "DIR") (pintype "input") (tstamp e37f3419-5ebd-4b7f-9796-cb21dba9c8f6))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1.0001 1))
       (rotate (xyz 0 0 -90))
@@ -1861,7 +1861,7 @@
       (net 68 "A6STEP") (pinfunction "STEP") (pintype "input") (tstamp 2b83d9d3-42e8-4199-ac84-0a96375aab0c))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 69 "DIR6") (pinfunction "DIR") (pintype "input") (tstamp 1e292289-8870-4972-8061-c1319ab5a0dd))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -2042,7 +2042,7 @@
       (net 46 "A4STEP") (pinfunction "STEP") (pintype "input") (tstamp c9cfdd33-cfc4-4169-89a0-5ca24235548d))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 47 "DIR4") (pinfunction "DIR") (pintype "input") (tstamp 9991f477-d48e-4c57-a7a3-f973b717bdbb))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))
@@ -2742,7 +2742,7 @@
       (net 57 "A5STEP") (pinfunction "STEP") (pintype "input") (tstamp fc796df7-838b-4292-a482-85848115cd74))
     (pad "16" thru_hole oval (at 12.7 0) (size 1.6 1.6) (drill 0.8) (layers *.Cu *.Mask)
       (net 58 "DIR5") (pinfunction "DIR") (pintype "input") (tstamp a3df867f-e009-4422-a170-0c49a469e745))
-    (model "${KICAD6_3DMODEL_DIR}/Module.3dshapes/stepstick.STEP"
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/stepstick.STEP"
       (offset (xyz 64.7 -69.9 12))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 -90))

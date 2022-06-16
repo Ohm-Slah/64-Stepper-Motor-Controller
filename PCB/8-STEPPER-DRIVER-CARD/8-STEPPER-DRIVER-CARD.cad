@@ -727,6 +727,14 @@ $ENDCOMPONENTS
 
 $DEVICES
 
+DEVICE "DEV_Module:Pololu_Breakout-16_15.2x20.3mm"
+PART "Pololu_Breakout_A4988"
+PACKAGE "Module:Pololu_Breakout-16_15.2x20.3mm"
+
+DEVICE "DEV_Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+PART "C_Polarized_US"
+PACKAGE "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
+
 DEVICE "DEV_Capacitor_THT:CP_Radial_D6.3mm_P2.50mm_0"
 PART "C_Polarized_US"
 PACKAGE "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
@@ -734,14 +742,6 @@ PACKAGE "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
 DEVICE "DEV_Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
 PART "Conn_01x04_Male"
 PACKAGE "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
-
-DEVICE "DEV_Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
-PART "C_Polarized_US"
-PACKAGE "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm"
-
-DEVICE "DEV_Module:Pololu_Breakout-16_15.2x20.3mm"
-PART "Pololu_Breakout_A4988"
-PACKAGE "Module:Pololu_Breakout-16_15.2x20.3mm"
 
 DEVICE "DEV_LIBRARIES:MEC2-30-01-J-TH1-NP-WT-EDGECARD"
 PART "MEC2-30-01-X-TH1-NP-WT"
