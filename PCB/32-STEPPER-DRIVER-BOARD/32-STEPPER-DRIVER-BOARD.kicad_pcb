@@ -901,6 +901,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/UMPT-06-01-X-RA-WT-P-X.step"
+      (offset (xyz 0 -2.25 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (footprint "Resistor_SMD:R_0603_1608Metric" (layer "F.Cu")
@@ -1724,6 +1729,11 @@
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp c1208c6e-87c6-43af-9305-4149b0f5dd62))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp f0407ff7-6bee-456a-8caf-296cbc17b512))
     (model "${HOME}/8-STEPPER-CARD-ASSEMBLY v3.step"
+      (offset (xyz -158.75 0.75 123))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -4805,6 +4815,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+      (offset (xyz -158.75 0.75 123))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (footprint "Resistor_SMD:R_0603_1608Metric" (layer "F.Cu")
@@ -6816,6 +6831,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
     )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
+      (offset (xyz -158.75 0.75 123))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
   )
 
   (footprint "MountingHole:MountingHole_2.2mm_M2_Pad" (layer "F.Cu")
@@ -7177,6 +7197,11 @@
     (pad "S1" thru_hole circle (at -32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp 6a9d6d1f-19d9-42b1-bc10-b872f6b94f93))
     (pad "S2" thru_hole circle (at 32.7 0) (size 1.508 1.508) (drill 1) (layers *.Cu *.Mask) (tstamp c0ed67f6-b56f-4939-8224-009bd5023e80))
     (model "${HOME}/8-STEPPER-CARD-ASSEMBLY v3.step"
+      (offset (xyz -158.75 0.75 123))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/8-STEPPER-CARD-ASSEMBLY v3.step"
       (offset (xyz -158.75 0.75 123))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
@@ -9167,6 +9192,11 @@
     (pad "50" thru_hole circle locked (at -30.48 -1.27 90) (size 1.39 1.39) (drill 1.04) (layers *.Cu *.Mask)
       (net 1 "GND") (pinfunction "50") (pintype "passive") (tstamp 4b955b5c-03e5-4624-b491-59cac36331e9))
     (model "${HOME}/IPT1-125-01-S-D.step"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz -90 0 0))
+    )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/IPT1-125-01-S-D.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz -90 0 0))
