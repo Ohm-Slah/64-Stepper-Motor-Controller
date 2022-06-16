@@ -68,6 +68,40 @@
 #define VCCVOLTAGEREADPIN -1 // Temporary placeholder
 #define FIVEVOLTAGEREADPIN -1 // Temporary placeholder
 
-//  *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*  //
+//  *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*  //
+
+//  *Define shift register pin order*   //
+//  *-------------------------------*   //
+
+// TODO Used as reference for now
+// char shiftRegisterOne[40][6] = {
+//!     "DIR01", "DIR05", "A01EN", "A05EN", "A1MS1", "A5MS1", "A1MS2", "A5MS2", "A1MS3", "A5MS3",
+//!     "DIR02", "DIR06", "A02EN", "A06EN", "A2MS1", "A6MS1", "A2MS2", "A6MS2", "A2MS3", "A6MS3",
+//!     "DIR03", "DIR07", "A03EN", "A07EN", "A3MS1", "A7MS1", "A3MS2", "A7MS2", "A3MS3", "A7MS3",
+//!     "DIR04", "DIR08", "A04EN", "A08EN", "A4MS1", "A8MS1", "A4MS2", "A8MS2", "A4MS3", "A8MS3"
+// };
+
+// char shiftRegisterTwo[40][6] = {
+//     "DIR01", "DIR05", "A01EN", "A05EN", "A1MS1", "A5MS1", "A1MS2", "A5MS2", "A1MS3", "A5MS3",
+//     "DIR02", "DIR06", "A02EN", "A06EN", "A2MS1", "A6MS1", "A2MS2", "A6MS2", "A2MS3", "A6MS3",
+//     "DIR03", "DIR07", "A03EN", "A07EN", "A3MS1", "A7MS1", "A3MS2", "A7MS2", "A3MS3", "A7MS3",
+//     "DIR04", "DIR08", "A04EN", "A08EN", "A4MS1", "A8MS1", "A4MS2", "A8MS2", "A4MS3", "A8MS3"
+// };
+
+// char shiftRegisterThree[40][6] = {
+//     "DIR01", "DIR05", "A01EN", "A05EN", "A1MS1", "A5MS1", "A1MS2", "A5MS2", "A1MS3", "A5MS3",
+//     "DIR02", "DIR06", "A02EN", "A06EN", "A2MS1", "A6MS1", "A2MS2", "A6MS2", "A2MS3", "A6MS3",
+//     "DIR03", "DIR07", "A03EN", "A07EN", "A3MS1", "A7MS1", "A3MS2", "A7MS2", "A3MS3", "A7MS3",
+//     "DIR04", "DIR08", "A04EN", "A08EN", "A4MS1", "A8MS1", "A4MS2", "A8MS2", "A4MS3", "A8MS3"
+// };
+
+// char shiftRegisterFour[40][6] = {
+//     "DIR01", "DIR05", "A01EN", "A05EN", "A1MS1", "A5MS1", "A1MS2", "A5MS2", "A1MS3", "A5MS3",
+//     "DIR02", "DIR06", "A02EN", "A06EN", "A2MS1", "A6MS1", "A2MS2", "A6MS2", "A2MS3", "A6MS3",
+//     "DIR03", "DIR07", "A03EN", "A07EN", "A3MS1", "A7MS1", "A3MS2", "A7MS2", "A3MS3", "A7MS3",
+//     "DIR04", "DIR08", "A04EN", "A08EN", "A4MS1", "A8MS1", "A4MS2", "A8MS2", "A4MS3", "A8MS3"
+// };
+
+//  *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*   //
 
 #endif  // PINOUT_H

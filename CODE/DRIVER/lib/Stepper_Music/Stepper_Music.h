@@ -99,12 +99,12 @@ class Motor
 
         void _changeMotorState(bool desiredState)
         {
-            
+            // Enable/disable the motor
         }
 
         void _changeMotorDirection(bool desiredState)
         {
-
+            // CW/CCW rotation of the motor
         }
 };
 
