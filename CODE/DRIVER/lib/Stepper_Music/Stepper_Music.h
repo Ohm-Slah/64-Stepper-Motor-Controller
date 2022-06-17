@@ -36,7 +36,7 @@ int8_t pinArray[] = {
 
 class Motor
 {
-// Class to create individual motor objects to control. The intention is for all motor useage to be through this class.
+// Class to create individual motor objects to control. All things stepping is controlled here.
     public:
         Motor(uint8_t stepPin, uint8_t cardNumber, uint8_t motorNumber, uint8_t xGridPositionTopLeftOrigin, uint8_t yGridPositionTopLeftOrigin)
         {
@@ -105,6 +105,107 @@ class Motor
         void _changeMotorDirection(bool desiredState)
         {
             // CW/CCW rotation of the motor
+        }
+};
+
+class Card
+{
+    private:
+        Motor _Motors[8];
+        uint8_t _serialPin;
+        uint8_t _clockPin;
+        uint8_t _cardNumber;
+        uint64_t _buffer = 0;
+
+        void _fillBuffer(uint64_t data)
+        {
+            _buffer = data;
+        }
+
+    public:
+        Card(Motor MotorOne, Motor MotorTwo, Motor MotorThree, Motor MotorFour, 
+            Motor MotorFive, Motor MotorSix, Motor MotorSeven, Motor MotorEight, uint8_t cardNumber) : 
+            _cardNumber(cardNumber),
+            _Motors{{MotorOne}, {MotorTwo}, {MotorThree}, {MotorFour}, {MotorFive}, {MotorSix}, {MotorSeven}, {MotorEight}}
+        {
+        // Constructor for a single card containing 8 motors. All shift register work is done here.
+            if(cardNumber > 4 || !cardNumber) 
+            {
+                Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
+                return;
+            }
+
+            switch (cardNumber)
+            {
+                case 1:
+                    _serialPin = SER1;
+                    _clockPin = SRCLK1;
+                break;
+                case 2:
+                    _serialPin = SER2;
+                    _clockPin = SRCLK2;
+                break;
+                case 3:
+                    _serialPin = SER3;
+                    _clockPin = SRCLK3;
+                break;
+                case 4:
+                    _serialPin = SER4;
+                    _clockPin = SRCLK4;
+                break;
+            }
+
+            // pinMode(SRCLR, OUTPUT); // reset pin
+            // pinMode(RCLK, OUTPUT);  // latch pin
+            // pinMode(OE, OUTPUT);    // output enable pin
+
+        }
+
+        void writeRegister()
+        {
+        // Push buffer data out to shift registers. Will not show until latch is reset.
+            for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, LSBFIRST, _buffer>>(8*i));
+        }
+
+        void latchRegister()
+        {
+            digitalWrite(RCLK, LOW);
+        }
+
+        void unlatchRegister()
+        {
+            digitalWrite(RCLK, HIGH);
+        }
+
+};
+
+class MotorBoard
+{
+    private:
+        Card Cards[8];
+
+    public:
+        MotorBoard(Card Card1, Card Card2, Card Card3, Card Card4, uint8_t motorBoardNumber)
+        {
+
+        }
+
+        void enableAllRegisters()
+        {
+            digitalWrite(OE, HIGH);
+        }
+
+        void disableAllRegisters()
+        {
+        // Unlatch shift registers, will display what data has been shifted out.
+            digitalWrite(OE, LOW);
+        }
+
+        void clearAllRegisters()
+        {
+            digitalWrite(SRCLR, LOW);
+            delayMicroseconds(1);
+            digitalWrite(SRCLR, HIGH);
         }
 };
 

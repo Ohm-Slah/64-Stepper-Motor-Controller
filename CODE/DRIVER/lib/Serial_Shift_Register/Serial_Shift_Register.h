@@ -27,14 +27,14 @@ class ShiftRegisterControl
             write();
         }
 
-        void fillBuffer(uint64_t data)
-        {
-            _buffer = data;
-        }
-
         uint64_t getBuffer()
         {
             return _buffer;
+        }
+
+        void enableMotor(uint8_t motorNumber)
+        {
+            
         }
 
         void write()
@@ -46,6 +46,11 @@ class ShiftRegisterControl
         uint64_t _buffer = 0;
         
         uint8_t _serialPin, _clockPin;
+
+        void _fillBuffer(uint64_t data)
+        {
+            _buffer = data;
+        }
 };
 
 ShiftRegisterControl Shift1(SER1, SRCLK1);
