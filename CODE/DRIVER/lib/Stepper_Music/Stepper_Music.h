@@ -155,10 +155,6 @@ class Card
                 break;
             }
 
-            // pinMode(SRCLR, OUTPUT); // reset pin
-            // pinMode(RCLK, OUTPUT);  // latch pin
-            // pinMode(OE, OUTPUT);    // output enable pin
-
         }
 
         void writeRegister()
@@ -179,15 +175,20 @@ class Card
 
 };
 
-class MotorBoard
+class ControlBoard
 {
     private:
-        Card Cards[8];
+        Card _Cards[4];
+        uint8_t _controlBoardNumber;
 
     public:
-        MotorBoard(Card Card1, Card Card2, Card Card3, Card Card4, uint8_t motorBoardNumber)
+        ControlBoard(Card Card1, Card Card2, Card Card3, Card Card4, uint8_t controlBoardNumber) :
+            _controlBoardNumber(controlBoardNumber),
+            _Cards{{Card1}, {Card2}, {Card3}, {Card4}}
         {
-
+            pinMode(SRCLR, OUTPUT); // reset pin
+            pinMode(RCLK, OUTPUT);  // latch pin
+            pinMode(OE, OUTPUT);    // output enable pin
         }
 
         void enableAllRegisters()
