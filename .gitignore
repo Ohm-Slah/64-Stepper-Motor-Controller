@@ -1,37 +1,3 @@
 *.dwl
 *.dwl2
 *.bak
-
-# For PCBs designed using KiCad: https://www.kicad.org/
-# Format documentation: https://kicad.org/help/file-formats/
-
-# Temporary files
-*.000
-*.bak
-*.bck
-*.kicad_pcb-bak
-*.kicad_sch-bak
-*-backups
-*.kicad_prl
-*.sch-bak
-*~
-_autosave-*
-*.tmp
-*-save.pro
-*-save.kicad_pcb
-fp-info-cache
-
-# Netlist files (exported from Eeschema)
-*.net
-
-# Autorouter files (exported from Pcbnew)
-*.dsn
-*.ses
-
-# Exported BOM files
-*.xml
-*.csv
-
-C:\Users\34892\OneDrive - Samtec\Documents\GitHub\64-Stepper-Motor-Controller\PCB\8-STEPPER-DRIVER-CARD\8-STEPPER-DRIVER-CARD-backups
-C:\Users\34892\OneDrive - Samtec\Documents\GitHub\64-Stepper-Motor-Controller\PCB\32-STEPPER-DRIVER-BOARD\32-STEPPER-DRIVER-BOARD-backups
-C:\Users\34892\OneDrive - Samtec\Documents\GitHub\64-Stepper-Motor-Controller\PCB\64-STEPPER-CONTROLLER\64-STEPPER-CONTROLLER-backups
