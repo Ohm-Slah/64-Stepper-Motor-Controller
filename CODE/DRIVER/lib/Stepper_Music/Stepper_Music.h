@@ -47,6 +47,10 @@ class Motor
             _xGridPositionTopLeftOrigin = xGridPositionTopLeftOrigin;
             _yGridPositionTopLeftOrigin = yGridPositionTopLeftOrigin;
             _shiftRegisterNumber = _cardNumber;
+            _enablePin = enablePins[_motorNumber];
+            _ms1Pin = MS1Pins[_motorNumber];
+            _ms2Pin = MS2Pins[_motorNumber];
+            _ms3Pin = MS3Pins[_motorNumber];
 
             pinMode(_stepPin, OUTPUT);
             digitalWrite(_stepPin, LOW);
@@ -70,6 +74,7 @@ class Motor
 
     private:
         uint8_t _stepPin, _cardNumber, _motorNumber, _xGridPositionTopLeftOrigin, _yGridPositionTopLeftOrigin, _shiftRegisterNumber;
+        uint8_t _enablePin, _ms1Pin, _ms2Pin, _ms3Pin, _directionPin;
 
         void _generate_Acceleration_Points()
         {
@@ -117,11 +122,6 @@ class Card
         uint8_t _cardNumber;
         uint64_t _buffer = 0;
 
-        void _fillBuffer(uint64_t data)
-        {
-            _buffer = data;
-        }
-
     public:
         Card(Motor MotorOne, Motor MotorTwo, Motor MotorThree, Motor MotorFour, 
             Motor MotorFive, Motor MotorSix, Motor MotorSeven, Motor MotorEight, uint8_t cardNumber) : 
@@ -155,22 +155,30 @@ class Card
                 break;
             }
 
+            pinMode(_serialPin, OUTPUT);
+            pinMode(_clockPin, OUTPUT);
+
+        }
+
+        void fillBuffer(uint64_t buf)
+        {
+            _buffer = buf;
+        }
+
+        void clearBuffer()
+        {
+            _buffer = 0;
+        }
+
+        uint64_t getBuffer()
+        {
+            return _buffer;
         }
 
         void writeRegister()
         {
         // Push buffer data out to shift registers. Will not show until latch is reset.
-            for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, LSBFIRST, _buffer>>(8*i));
-        }
-
-        void latchRegister()
-        {
-            digitalWrite(RCLK, LOW);
-        }
-
-        void unlatchRegister()
-        {
-            digitalWrite(RCLK, HIGH);
+            for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, MSBFIRST, _buffer>>(8*i)&0xFF);
         }
 
 };
@@ -193,13 +201,13 @@ class ControlBoard
 
         void enableAllRegisters()
         {
-            digitalWrite(OE, HIGH);
+            digitalWrite(OE, LOW);
         }
 
         void disableAllRegisters()
         {
         // Unlatch shift registers, will display what data has been shifted out.
-            digitalWrite(OE, LOW);
+            digitalWrite(OE, HIGH);
         }
 
         void clearAllRegisters()
@@ -207,6 +215,16 @@ class ControlBoard
             digitalWrite(SRCLR, LOW);
             delayMicroseconds(1);
             digitalWrite(SRCLR, HIGH);
+        }
+
+        void latchRegisters()
+        {
+            digitalWrite(RCLK, HIGH);
+        }
+
+        void unlatchRegisters()
+        {
+            digitalWrite(RCLK, LOW);
         }
 };
 

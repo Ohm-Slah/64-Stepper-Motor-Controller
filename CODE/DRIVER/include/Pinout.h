@@ -11,7 +11,7 @@
 
 //  *Initialize all stepper driver freq pins to a unique identifier*  //
 //  *--------------------------------------------------------------*  //
-#define A1STEP1 -1 // Temporary placeholder
+#define A1STEP1 22 // Temporary placeholder
 #define A2STEP1 -1 // Temporary placeholder
 #define A3STEP1 -1 // Temporary placeholder
 #define A4STEP1 -1 // Temporary placeholder
@@ -45,25 +45,25 @@
 #define A8STEP4 -1 // Temporary placeholder
 
 // Latch clock
-#define RCLK -1 // Temporary placeholder
+#define RCLK 16 // Temporary placeholder
 
 // Data in
-#define SER1 -1 // Temporary placeholder
-#define SER2 -1 // Temporary placeholder
-#define SER3 -1 // Temporary placeholder
-#define SER4 -1 // Temporary placeholder
+#define SER1 18 // Temporary placeholder
+#define SER2 10 // Temporary placeholder
+#define SER3 11 // Temporary placeholder
+#define SER4 12 // Temporary placeholder
 
 // Shift clock
-#define SRCLK1 -1 // Temporary placeholder
-#define SRCLK2 -1 // Temporary placeholder
-#define SRCLK3 -1 // Temporary placeholder
-#define SRCLK4 -1 // Temporary placeholder
+#define SRCLK1 17 // Temporary placeholder
+#define SRCLK2 7 // Temporary placeholder
+#define SRCLK3 8 // Temporary placeholder
+#define SRCLK4 9 // Temporary placeholder
 
 // Reset
-#define SRCLR -1 // Temporary placeholder
+#define SRCLR 15 // Temporary placeholder
 
 // Output enable
-#define OE -1 // Temporary placeholder
+#define OE 14 // Temporary placeholder
 
 #define VCCVOLTAGEREADPIN -1 // Temporary placeholder
 #define FIVEVOLTAGEREADPIN -1 // Temporary placeholder
