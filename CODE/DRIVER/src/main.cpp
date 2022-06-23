@@ -9,8 +9,6 @@
 #include <Arduino.h>
 #include <Stepper_Music.h>
 
-#define STEP 22
-
 Motor Motor1(A1STEP1, 1, 1, 1, 1);
 Motor Motor2(A2STEP1, 1, 2, 1, 2);
 Motor Motor3(A3STEP1, 1, 3, 1, 3);
@@ -38,127 +36,93 @@ ControlBoard Board(Card1, Card2, Card3, Card4, 1);
 
 void setup() {
   Serial.begin(115200);
-  // Motor(uint8_t stepPin, uint8_t cardNumber, uint8_t motorNumber, uint8_t xGridPositionTopLeftOrigin, uint8_t yGridPositionTopLeftOrigin)
-  //Card Card2();
-  //Card Card3();
-  //Card Card4();
-  // pinMode(SRCLR, OUTPUT);
-  // pinMode(OE, OUTPUT);
-  // pinMode(RCLK, OUTPUT);
-  // digitalWrite(SRCLR, HIGH);
-  // digitalWrite(OE, LOW);
+
   Board.enableAllRegisters();
   Board.clearAllRegisters();
-  Board.latchRegisters();
-  //Card1.fillBuffer(0b100);
-  delay(1000);
-  Board.unlatchRegisters();
+  Board.resetLatch();
+  delay(500);
+  
   Card1.writeRegister();
-  Board.latchRegisters();
+  Board.resetLatch();
 }
 
 void loop() {
-  Card1.fillBuffer(0);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  Motor1.testFunctionality(200, 2273);
-  Serial.println("FULL");
-  delayMicroseconds(1000);
-  Card1.fillBuffer(0b100);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  delay(1000);
-
-   Card1.fillBuffer(0b10000);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  Motor1.testFunctionality(400, 1136);
-  Serial.println("1/2");
-  delayMicroseconds(1000);
-  Card1.fillBuffer(0b10100);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  delay(1000);
-
-   Card1.fillBuffer(0b1000000);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  Motor1.testFunctionality(800, 568);
-  Serial.println("1/4");
-  delayMicroseconds(1000);
-  Card1.fillBuffer(0b1000100);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  delay(1000);
-
-   Card1.fillBuffer(0b1010000);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  Motor1.testFunctionality(1600, 284);
-  Serial.println("1/8");
-  delayMicroseconds(1000);
-  Card1.fillBuffer(0b1010100);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  delay(1000);
-
-  // Card1.fillBuffer(0b100000000);
+  for(int i=1; i<6; i++)
+  {
+    Card1.changeMicroStep(1, i);
+    Card1.enableMotor(1);
+    Card1.writeRegister();
+    Board.resetLatch();
+    Motor1.testFunctionality(200*i, 2273);
+    Serial.println("FULL");
+    delayMicroseconds(1000);
+    Card1.disableMotor(1);
+    Board.resetLatch();
+    delay(1000);
+  }
+  
+  // Card1.fillBuffer(0);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
-  // Motor1.testFunctionality(200, 1000);
-  // Serial.println("1/16");
+  // Motor1.testFunctionality(200, 2273);
+  // Serial.println("FULL");
   // delayMicroseconds(1000);
-  // Card1.fillBuffer(0b100000100);
+  // Card1.fillBuffer(0b100);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
   // delay(1000);
 
-  // Card1.fillBuffer(0b100010000);
+  //  Card1.fillBuffer(0b10000);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
-  // Motor1.testFunctionality(200, 1000);
-  // Serial.println("1/32");
+  // Motor1.testFunctionality(400, 1136);
+  // Serial.println("1/2");
   // delayMicroseconds(1000);
-  // Card1.fillBuffer(0b100010100);
+  // Card1.fillBuffer(0b10100);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
   // delay(1000);
 
-  // Card1.fillBuffer(0b101000000);
+  //  Card1.fillBuffer(0b1000000);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
-  // Motor1.testFunctionality(200, 1000);
-  // Serial.println("1/32");
+  // Motor1.testFunctionality(800, 568);
+  // Serial.println("1/4");
   // delayMicroseconds(1000);
-  // Card1.fillBuffer(0b101000100);
+  // Card1.fillBuffer(0b1000100);
   // Board.unlatchRegisters();
   // Card1.writeRegister();
   // Board.latchRegisters();
   // delay(1000);
 
-  Card1.fillBuffer(0b101010000);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  Motor1.testFunctionality(3200, 142);
-  Serial.println("1/64");
-  delayMicroseconds(1000);
-  Card1.fillBuffer(0b101010100);
-  Board.unlatchRegisters();
-  Card1.writeRegister();
-  Board.latchRegisters();
-  delay(1000);
+  //  Card1.fillBuffer(0b1010000);
+  // Board.unlatchRegisters();
+  // Card1.writeRegister();
+  // Board.latchRegisters();
+  // Motor1.testFunctionality(1600, 284);
+  // Serial.println("1/8");
+  // delayMicroseconds(1000);
+  // Card1.fillBuffer(0b1010100);
+  // Board.unlatchRegisters();
+  // Card1.writeRegister();
+  // Board.latchRegisters();
+  // delay(1000);
+
+  // Card1.fillBuffer(0b101010000);
+  // Board.unlatchRegisters();
+  // Card1.writeRegister();
+  // Board.latchRegisters();
+  // Motor1.testFunctionality(3200, 142);
+  // Serial.println("1/64");
+  // delayMicroseconds(1000);
+  // Card1.fillBuffer(0b101010100);
+  // Board.unlatchRegisters();
+  // Card1.writeRegister();
+  // Board.latchRegisters();
+  // delay(1000);
 }

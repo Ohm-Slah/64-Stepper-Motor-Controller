@@ -11,7 +11,6 @@
 
 #include <pitches.h>
 #include <DAQ.h>
-#include <Serial_Shift_Register.h>
 #include <Pinout.h>
 
 //  *Constants for calculation and balancing. Do not touch unless you know what you're doing.*    //
@@ -122,6 +121,11 @@ class Card
         uint8_t _cardNumber;
         uint64_t _buffer = 0;
 
+        void _fillBuffer(uint64_t buf)
+        {
+            _buffer = buf;
+        }
+
     public:
         Card(Motor MotorOne, Motor MotorTwo, Motor MotorThree, Motor MotorFour, 
             Motor MotorFive, Motor MotorSix, Motor MotorSeven, Motor MotorEight, uint8_t cardNumber) : 
@@ -160,11 +164,6 @@ class Card
 
         }
 
-        void fillBuffer(uint64_t buf)
-        {
-            _buffer = buf;
-        }
-
         void clearBuffer()
         {
             _buffer = 0;
@@ -179,6 +178,52 @@ class Card
         {
         // Push buffer data out to shift registers. Will not show until latch is reset.
             for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, MSBFIRST, _buffer>>(8*i)&0xFF);
+        }
+
+        void enableMotor(uint8_t motorNum)
+        {
+            _buffer &= ~(1 << enablePins[motorNum]-1);
+        }
+
+        void disableMotor(uint8_t motorNum)
+        {
+            _buffer |= 1 << enablePins[motorNum]-1;
+        }
+
+        void changeDirection(uint8_t motorNum, bool direction)
+        {
+            if (direction)
+            {
+                _buffer &= ~(1 << directionPins[motorNum]-1);
+            } else
+            {
+                _buffer |= 1 << directionPins[motorNum]-1;
+            }
+        }
+
+        void changeMicroStep(uint8_t motorNum, uint8_t microStep)
+        {
+            switch (microStep)
+            {
+                case 1:
+                    _buffer &= ~((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                break;
+                case 2:
+                    _buffer &= ~((1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                    _buffer |= (1 << MS1Pins[motorNum]-1);
+                break;
+                case 3:
+                    _buffer &= ~((1 << MS1Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                    _buffer |= (1 << MS2Pins[motorNum]-1);
+                break;
+                case 4:
+                    _buffer &= ~(1 << MS3Pins[motorNum]-1);
+                    _buffer |= ((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1));
+                break;
+                case 5:
+                    _buffer |= ((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                break;
+            }
         }
 
 };
@@ -225,6 +270,12 @@ class ControlBoard
         void unlatchRegisters()
         {
             digitalWrite(RCLK, LOW);
+        }
+
+        void resetLatch()
+        {
+            unlatchRegisters();
+            latchRegisters();
         }
 };
 
