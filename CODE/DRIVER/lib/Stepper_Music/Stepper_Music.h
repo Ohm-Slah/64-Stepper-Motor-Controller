@@ -182,22 +182,26 @@ class Card
 
         void enableMotor(uint8_t motorNum)
         {
-            _buffer &= ~(1 << enablePins[motorNum]-1);
+            _buffer &= ~(uint64_t)(1 << (enablePins[motorNum-1]-1));
+            Serial.print("MotorNum: ");Serial.println(motorNum);
+            Serial.print("EnablePin: ");Serial.println(enablePins[motorNum-1]-1);
+            Serial.print("Enable: "); Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));Serial.print("\t");Serial.println(_buffer, BIN);
         }
 
         void disableMotor(uint8_t motorNum)
         {
-            _buffer |= 1 << enablePins[motorNum]-1;
+            _buffer |= (uint64_t)(1 << (enablePins[motorNum-1]-1));
+            Serial.print("disable: "); Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));Serial.print("\t");Serial.println(_buffer, BIN);
         }
 
         void changeDirection(uint8_t motorNum, bool direction)
         {
             if (direction)
             {
-                _buffer &= ~(1 << directionPins[motorNum]-1);
+                _buffer &= ~(1 << directionPins[motorNum-1]-1);
             } else
             {
-                _buffer |= 1 << directionPins[motorNum]-1;
+                _buffer |= 1 << directionPins[motorNum-1]-1;
             }
         }
 
@@ -206,22 +210,22 @@ class Card
             switch (microStep)
             {
                 case 1:
-                    _buffer &= ~((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                    _buffer &= ~(uint64_t)((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
                 break;
                 case 2:
-                    _buffer &= ~((1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
-                    _buffer |= (1 << MS1Pins[motorNum]-1);
+                    _buffer &= ~(uint64_t)((1 << (MS2Pins[motorNum-1]-1)) | (1 <<(MS3Pins[motorNum-1]-1)));
+                    _buffer |= (1 << (MS1Pins[motorNum-1]-1));
                 break;
                 case 3:
-                    _buffer &= ~((1 << MS1Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
-                    _buffer |= (1 << MS2Pins[motorNum]-1);
+                    _buffer &= ~(uint64_t)((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
+                    _buffer |= (1 << (MS2Pins[motorNum-1]-1));
                 break;
                 case 4:
-                    _buffer &= ~(1 << MS3Pins[motorNum]-1);
-                    _buffer |= ((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1));
+                    _buffer &= ~(uint64_t)(1 << (MS3Pins[motorNum]-1));
+                    _buffer |= ((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)));
                 break;
                 case 5:
-                    _buffer |= ((1 << MS1Pins[motorNum]-1) | (1 << MS2Pins[motorNum]-1) | (1 << MS3Pins[motorNum]-1));
+                    _buffer |= ((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
                 break;
             }
         }

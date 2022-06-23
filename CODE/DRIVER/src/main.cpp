@@ -49,15 +49,19 @@ void setup() {
 void loop() {
   for(int i=1; i<6; i++)
   {
-    Card1.changeMicroStep(1, i);
     Card1.enableMotor(1);
+    Card1.changeMicroStep(1, i);
+    Board.unlatchRegisters();
+    Card1.writeRegister();
+    Board.latchRegisters();
+    delay(10);
+    Motor1.testFunctionality(200*pow(2, i), 2274/pow(2, i));
+    Serial.println("FULL");
+    delayMicroseconds(10000);
+    Card1.disableMotor(1);
     Card1.writeRegister();
     Board.resetLatch();
-    Motor1.testFunctionality(200*i, 2273);
-    Serial.println("FULL");
-    delayMicroseconds(1000);
-    Card1.disableMotor(1);
-    Board.resetLatch();
+    Serial.println(Card1.getBuffer());
     delay(1000);
   }
   
