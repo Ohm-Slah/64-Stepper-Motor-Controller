@@ -13,6 +13,8 @@
 #include <DAQ.h>
 #include <Pinout.h>
 
+#define DEBUG 1
+
 //  *Constants for calculation and balancing. Do not touch unless you know what you're doing.*    //
 //  *----------------------------------------------------------------------------------------*    //
 // ? Do velocity, acceleration, and jerk calculations? Hard code accel steps instead?
@@ -135,7 +137,7 @@ class Card
         // Constructor for a single card containing 8 motors. All shift register work is done here.
             if(cardNumber > 4 || !cardNumber) 
             {
-                Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
+                !!DEBUG ? true : Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
                 return;
             }
 
@@ -164,9 +166,20 @@ class Card
 
         }
 
+        void fillBuffer(uint64_t buf)
+        {
+            _buffer = buf;
+            !DEBUG ? true : Serial.print("Filling Buffer with: ");
+            !DEBUG ? true : Serial.println(buf);
+            !DEBUG ? true : Serial.print("Buffer is now: ");
+            !DEBUG ? true : Serial.println(_buffer);
+        }
+
         void clearBuffer()
         {
             _buffer = 0;
+            !DEBUG ? true : Serial.print("Buffer is now: ");
+            !DEBUG ? true : Serial.println(_buffer);
         }
 
         uint64_t getBuffer()
@@ -178,20 +191,38 @@ class Card
         {
         // Push buffer data out to shift registers. Will not show until latch is reset.
             for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, MSBFIRST, _buffer>>(8*i)&0xFF);
+            !DEBUG ? true : Serial.print("Register wirtten with: ");
+            !DEBUG ? true : Serial.println(_buffer);
         }
 
         void enableMotor(uint8_t motorNum)
         {
             _buffer &= ~(uint64_t)(1 << (enablePins[motorNum-1]-1));
-            Serial.print("MotorNum: ");Serial.println(motorNum);
-            Serial.print("EnablePin: ");Serial.println(enablePins[motorNum-1]-1);
-            Serial.print("Enable: "); Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));Serial.print("\t");Serial.println(_buffer, BIN);
+            !DEBUG ? true : Serial.print("MotorNum: ");
+            !DEBUG ? true : Serial.println(motorNum);
+            !DEBUG ? true : Serial.print("EnablePin: ");
+            !DEBUG ? true : Serial.println(enablePins[motorNum-1]-1);
+            !DEBUG ? true : Serial.print("Enable: "); 
+            !DEBUG ? true : Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));
+            !DEBUG ? true : Serial.print("\t");
+            !DEBUG ? true : Serial.println(_buffer, BIN);
         }
 
         void disableMotor(uint8_t motorNum)
         {
-            _buffer |= (uint64_t)(1 << (enablePins[motorNum-1]-1));
-            Serial.print("disable: "); Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));Serial.print("\t");Serial.println(_buffer, BIN);
+            _buffer |= ((uint64_t)1 << (enablePins[motorNum-1]-1));
+            !DEBUG ? true : Serial.print("disable: "); 
+            !DEBUG ? true : Serial.print(((uint64_t)1 << (enablePins[motorNum-1]-1)));
+            !DEBUG ? true : Serial.print("\t\t");
+            !DEBUG ? true : Serial.println(_buffer, BIN);
+        }
+
+        void disableAllMotors()
+        {
+            for(int i=1; i<9; i++)
+            {
+                disableMotor(i);
+            }
         }
 
         void changeDirection(uint8_t motorNum, bool direction)
@@ -251,12 +282,13 @@ class ControlBoard
         void enableAllRegisters()
         {
             digitalWrite(OE, LOW);
+            !DEBUG ? true : Serial.println("Register Enabled");
         }
 
         void disableAllRegisters()
         {
-        // Unlatch shift registers, will display what data has been shifted out.
             digitalWrite(OE, HIGH);
+            !DEBUG ? true : Serial.println("Register Disabled");
         }
 
         void clearAllRegisters()
@@ -264,22 +296,27 @@ class ControlBoard
             digitalWrite(SRCLR, LOW);
             delayMicroseconds(1);
             digitalWrite(SRCLR, HIGH);
+
+            !DEBUG ? true : Serial.println("Register cleared");
         }
 
         void latchRegisters()
         {
             digitalWrite(RCLK, HIGH);
+            !DEBUG ? true : Serial.println("Register latched");
         }
 
         void unlatchRegisters()
         {
             digitalWrite(RCLK, LOW);
+            !DEBUG ? true : Serial.println("Register unlatched");
         }
 
         void resetLatch()
         {
             unlatchRegisters();
             latchRegisters();
+            !DEBUG ? true : Serial.println("Register Reset");
         }
 };
 
