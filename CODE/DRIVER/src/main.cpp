@@ -8,7 +8,7 @@
 
 #include <Arduino.h>
 #include <Stepper_Music.h>
-//#include <Music_Serial.h>
+#include <Music_Serial.h>
 
 Motor Motor1(A1STEP1, 1, 1, 1, 1);
 Motor Motor2(A2STEP1, 1, 2, 1, 2);
