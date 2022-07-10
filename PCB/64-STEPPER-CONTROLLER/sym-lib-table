@@ -1,3 +1,5 @@
 (sym_lib_table
-  (lib (name "IPS1-125-01-S-D")(type "Legacy")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/IPS1-125-01-S-D.lib")(options "")(descr ""))
+  (lib (name "usb")(type "KiCad")(uri "${HOME}/usb.kicad_sym")(options "")(descr ""))
+  (lib (name "Samtec")(type "KiCad")(uri "${HOME}/Samtec.kicad_sym")(options "")(descr ""))
+  (lib (name "TEENSY")(type "KiCad")(uri "${HOME}/teensy.kicad_sym")(options "")(descr ""))
 )
