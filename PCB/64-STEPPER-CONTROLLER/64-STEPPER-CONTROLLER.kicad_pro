@@ -398,7 +398,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "64-STEPPER-CONTROLLER.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

@@ -1,0 +1,21 @@
+%TF.GenerationSoftware,KiCad,Pcbnew,(6.0.5)*%
+%TF.CreationDate,2022-07-10T16:44:07-04:00*%
+%TF.ProjectId,64-STEPPER-CONTROLLER,36342d53-5445-4505-9045-522d434f4e54,rev?*%
+%TF.SameCoordinates,Original*%
+%TF.FileFunction,Paste,Top*%
+%TF.FilePolarity,Positive*%
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW (6.0.5)) date 2022-07-10 16:44:07*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+%ADD10R,1.250000X3.500000*%
+G04 APERTURE END LIST*
+D10*
+%TO.C,J10*%
+X141875000Y-109680000D03*
+X143875000Y-109680000D03*
+%TD*%
+M02*
