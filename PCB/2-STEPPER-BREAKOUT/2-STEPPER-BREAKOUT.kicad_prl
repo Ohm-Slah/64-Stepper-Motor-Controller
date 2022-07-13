@@ -62,11 +62,11 @@
       35,
       36
     ],
-    "visible_layers": "7e0f0ff_80000001",
+    "visible_layers": "7ffffff_80000001",
     "zone_display_mode": 0
   },
   "meta": {
-    "filename": "64-STEPPER-CONTROLLER.kicad_prl",
+    "filename": "2-STEPPER-BREAKOUT.kicad_prl",
     "version": 3
   },
   "project": {
