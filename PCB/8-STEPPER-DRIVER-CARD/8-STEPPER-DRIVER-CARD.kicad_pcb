@@ -1614,6 +1614,11 @@
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
     )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/2-STEPPER-BREAKOUT/2-STEPPER-BREAKOUT.step"
+      (offset (xyz -1 49.5 -175.5))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 90 0))
+    )
   )
 
   (footprint "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" (layer "F.Cu")
@@ -1967,6 +1972,11 @@
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
+    )
+    (model "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/2-STEPPER-BREAKOUT/2-STEPPER-BREAKOUT.step"
+      (offset (xyz -1 49.5 -175.5))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 90 0))
     )
   )
 
