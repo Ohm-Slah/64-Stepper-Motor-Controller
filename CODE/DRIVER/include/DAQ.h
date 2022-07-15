@@ -8,7 +8,7 @@
 
 //-----------------------Create quick-read info definitions----------------------------//
 // Give analog Reading Converted to voltage
-#define VCCVOLTAGE map(analogRead(VCCVOLTAGEREADPIN), 1, 1023, 1, 1023)
-#define FIVEVOLTAGE map(analogRead(FIVEVOLTAGEREADPIN), 1, 1023, 1, 1023)
+// #define VCCVOLTAGE map(analogRead(VCCVOLTAGEREADPIN), 1, 1023, 1, 1023)
+// #define FIVEVOLTAGE map(analogRead(FIVEVOLTAGEREADPIN), 1, 1023, 1, 1023)
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//

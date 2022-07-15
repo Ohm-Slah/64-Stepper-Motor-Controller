@@ -53,3 +53,15 @@
 *    - 1 : state change
 *  
 */
+
+class Music_Serial
+{
+    private:
+    
+    public:
+        Music_Serial(uint8_t controlBoardNumber)
+        {
+            
+        }
+
+};
