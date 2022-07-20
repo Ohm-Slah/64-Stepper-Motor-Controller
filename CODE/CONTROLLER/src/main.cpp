@@ -11,13 +11,32 @@
 #include "Music_Serial.h"
 #include "Shift_Control.h"
 
-ControlBoard BoardOne(1);
 ControlBoard BoardTwo(2);
 
-void setup() {
+void setup()
+{
+    Serial.begin(115200);
+    delay(100);
 
+    BoardTwo.enableAllRegisters();
+    BoardTwo.Cards[0].clearBuffer();
+    BoardTwo.getInfo();
+    BoardTwo.Cards[0].getInfo();
 }
 
-void loop() {
-  
+void loop()
+{
+    //BoardTwo.Cards[0].enableMotor(1);
+    BoardTwo.Cards[0].fillBuffer(0xFFFFFFFFFFFFFFFF);
+    BoardTwo.unlatchRegisters();
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.latchRegisters();
+    delay(1000);
+
+    //BoardTwo.Cards[0].disableMotor(1);
+    BoardTwo.Cards[0].fillBuffer(0x0);
+    BoardTwo.unlatchRegisters();
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.latchRegisters();
+    delay(1000);
 }

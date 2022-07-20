@@ -24,39 +24,74 @@ class Card
         }
 
     public:
-        Card(uint8_t cardNumber) : 
+        Card(uint8_t cardNumber, uint8_t boardNumber) : 
             _cardNumber(cardNumber)
         {
         // Constructor for a single card containing 8 motors. All shift register work is done here.
             if(cardNumber > 4 || !cardNumber) 
             {
-                !!DEBUG ? true : Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
+                !DEBUG ? true : Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
                 return;
             }
 
-            switch (cardNumber)
+            switch (boardNumber)
             {
                 case 1:
-                    _serialPin = SER1;
-                    _clockPin = SRCLK1;
+                    switch (cardNumber)
+                    {
+                        case 1:
+                            _serialPin = SER1;
+                            _clockPin = SRCLK1;
+                        break;
+                        case 2:
+                            _serialPin = SER2;
+                            _clockPin = SRCLK2;
+                        break;
+                        case 3:
+                            _serialPin = SER3;
+                            _clockPin = SRCLK3;
+                        break;
+                        case 4:
+                            _serialPin = SER4;
+                            _clockPin = SRCLK4;
+                        break;
+                    }
                 break;
+
                 case 2:
-                    _serialPin = SER2;
-                    _clockPin = SRCLK2;
-                break;
-                case 3:
-                    _serialPin = SER3;
-                    _clockPin = SRCLK3;
-                break;
-                case 4:
-                    _serialPin = SER4;
-                    _clockPin = SRCLK4;
-                break;
+                    switch (cardNumber)
+                    {
+                        case 1:
+                            _serialPin = SER5;
+                            _clockPin = SRCLK5;
+                        break;
+                        case 2:
+                            _serialPin = SER6;
+                            _clockPin = SRCLK6;
+                        break;
+                        case 3:
+                            _serialPin = SER7;
+                            _clockPin = SRCLK7;
+                        break;
+                        case 4:
+                            _serialPin = SER7;
+                            _clockPin = SRCLK7;
+                        break;
+                    }
             }
+            
 
             pinMode(_serialPin, OUTPUT);
             pinMode(_clockPin, OUTPUT);
 
+        }
+
+        void getInfo()
+        {
+            Serial.println("INFORMATION");
+            Serial.println(_cardNumber);
+            Serial.println(_serialPin);
+            Serial.println(_clockPin);
         }
 
         void fillBuffer(uint64_t buf)
@@ -84,7 +119,7 @@ class Card
         {
         // Push buffer data out to shift registers. Will not show until latch is reset.
             for(int i=0; i<5; i++)  shiftOut(_serialPin, _clockPin, MSBFIRST, _buffer>>(8*i)&0xFF);
-            !DEBUG ? true : Serial.print("Register wirtten with: ");
+            !DEBUG ? true : Serial.print("Register written with: ");
             !DEBUG ? true : Serial.println(_buffer);
         }
 
@@ -161,15 +196,48 @@ class ControlBoard
     private:
         uint8_t _controlBoardNumber;
         Music_Serial _Driver();
+        uint8_t SRCLR, RCLK, OE;
 
     public:
+        Card Cards[4];
+
         ControlBoard(uint8_t controlBoardNumber) :
-            _controlBoardNumber(controlBoardNumber)
+            _controlBoardNumber(controlBoardNumber),
+            Cards{  Card(1, controlBoardNumber), 
+                    Card(2, controlBoardNumber), 
+                    Card(3, controlBoardNumber), 
+                    Card(4, controlBoardNumber) }
         {
+            if (_controlBoardNumber == 1)
+            {
+                SRCLR = SRCLR1;
+                RCLK = RCLK1;
+                OE = OE1;
+            } else {
+                SRCLR = SRCLR2;
+                RCLK = RCLK2;
+                OE = OE2;
+            }
+
+            for(uint8_t i=0; i < 4; i++)
+            {
+                Cards[i].disableAllMotors();
+                Cards[i].clearBuffer();
+                Cards[i].writeRegister();
+            }
+            
             pinMode(SRCLR, OUTPUT); // reset pin
             pinMode(RCLK, OUTPUT);  // latch pin
             pinMode(OE, OUTPUT);    // output enable pin
+        }
 
+        void getInfo()
+        {
+            Serial.println("INFORMATION");
+            Serial.println(_controlBoardNumber);
+            Serial.println(SRCLR);
+            Serial.println(RCLK);
+            Serial.println(OE);
         }
 
         void enableAllRegisters()
