@@ -57,11 +57,80 @@
 class Music_Serial
 {
     private:
+        char _readLine[100];
+        uint8_t _controlBoardNumber;
     
     public:
-        Music_Serial(uint8_t controlBoardNumber)
+        Music_Serial(uint8_t controlBoardNumber) :
+        _controlBoardNumber(controlBoardNumber)
         {
             
+        }
+
+        void serialInit()
+        {
+            Serial.println("initializing serial with slave...");
+            switch(_controlBoardNumber)
+            {
+                case 1:
+                    Serial7.begin(115200);
+                    send("I\n");
+                    while (!Serial7.available());
+                    Serial7.readBytesUntil('\n', _readLine, 100);
+                break;
+
+                case 2:
+                    Serial8.begin(115200);
+                    send("I\n");
+                    while (!Serial8.available());
+                    Serial8.readBytesUntil('\n', _readLine, 100);
+                break;
+            }
+
+            if(_readLine[0] == 'I')
+            {
+                Serial.println("Serial communications confirmed.");
+            }else {
+                Serial.println("ERROR with serial comms");
+            }
+            pinMode(13, OUTPUT);
+            digitalWrite(13, HIGH);
+            delay(250);
+            digitalWrite(13, LOW);
+            delay(250);
+            digitalWrite(13, HIGH);
+            delay(250);
+            digitalWrite(13, LOW);
+            delay(250);
+            digitalWrite(13, HIGH);
+            delay(250);
+            digitalWrite(13, LOW);
+        }
+
+        void send(char toSend[])
+        {
+            switch(_controlBoardNumber)
+            {
+                case 1:
+                    // for(uint8_t i=0; i<sizeof(toSend); i++)
+                    // {
+                    //     Serial7.write(toSend[i]);
+                    // }
+                    // Serial7.write('\n');
+                    Serial7.write(toSend, sizeof(toSend));
+                break;
+
+                case 2:
+                    // for(uint8_t i=0; i<sizeof(toSend)-1; i++)
+                    // {
+                    //     Serial8.write(toSend[i]);
+                    // }
+                    // Serial8.write('\n');
+                    
+                    Serial8.write(toSend, sizeof(toSend));
+                    //Serial8.write('\n');
+                break;
+            }
         }
 
 };

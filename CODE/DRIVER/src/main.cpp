@@ -19,18 +19,21 @@ Motor Motor6(A6STEP1, 1);
 Motor Motor7(A7STEP1, 1);
 Motor Motor8(A8STEP1, 1);
 
-Motor Motor9(A1STEP1, 1);
-Motor Motor10(A2STEP1, 1);
-Motor Motor11(A3STEP1, 1);
-Motor Motor12(A4STEP1, 1);
-Motor Motor13(A5STEP1, 1);
-Motor Motor14(A6STEP1, 1);
-Motor Motor15(A7STEP1, 1);
-Motor Motor16(A8STEP1, 1);
+Motor Motor9(A1STEP2, 1);
+Motor Motor10(A2STEP2, 1);
+Motor Motor11(A3STEP2, 1);
+Motor Motor12(A4STEP2, 1);
+Motor Motor13(A5STEP2, 1);
+Motor Motor14(A6STEP2, 1);
+Motor Motor15(A7STEP2, 1);
+Motor Motor16(A8STEP2, 1);
 
-void setup() {
+Music_Serial Master(1);
+
+void setup() 
+{
   Serial.begin(115200);
-
+  Master.serialInit();
 }
 
 void loop() {

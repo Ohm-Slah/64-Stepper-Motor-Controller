@@ -9,8 +9,7 @@
 			"path": "CONTROLLER"
 		},
 		{
-			"name": "GUI",
-			"path": "gui_testing"
+			"path": "GUI"
 		}
 	],
 	"settings": {

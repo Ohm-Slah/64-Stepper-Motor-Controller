@@ -16,6 +16,7 @@ class Card
         uint8_t _serialPin;
         uint8_t _clockPin;
         uint8_t _cardNumber;
+        uint8_t _boardNumber;
         uint64_t _buffer = 0;
 
         void _fillBuffer(uint64_t buf)
@@ -25,7 +26,8 @@ class Card
 
     public:
         Card(uint8_t cardNumber, uint8_t boardNumber) : 
-            _cardNumber(cardNumber)
+            _cardNumber(cardNumber),
+            _boardNumber(boardNumber)
         {
         // Constructor for a single card containing 8 motors. All shift register work is done here.
             if(cardNumber > 4 || !cardNumber) 
@@ -74,8 +76,8 @@ class Card
                             _clockPin = SRCLK7;
                         break;
                         case 4:
-                            _serialPin = SER7;
-                            _clockPin = SRCLK7;
+                            _serialPin = SER8;
+                            _clockPin = SRCLK8;
                         break;
                     }
             }
@@ -88,10 +90,11 @@ class Card
 
         void getInfo()
         {
-            Serial.println("INFORMATION");
-            Serial.println(_cardNumber);
-            Serial.println(_serialPin);
-            Serial.println(_clockPin);
+            Serial.println("CARD INFORMATION");
+            Serial.print("Board Number: ");Serial.println(_boardNumber);
+            Serial.print("Card Number: ");Serial.println(_cardNumber);
+            Serial.print("Serial Pin: ");Serial.println(_serialPin);
+            Serial.print("Clock Pin: ");Serial.println(_clockPin);
         }
 
         void fillBuffer(uint64_t buf)
@@ -195,14 +198,15 @@ class ControlBoard
 {
     private:
         uint8_t _controlBoardNumber;
-        Music_Serial _Driver();
         uint8_t SRCLR, RCLK, OE;
 
     public:
         Card Cards[4];
+        Music_Serial Driver;
 
         ControlBoard(uint8_t controlBoardNumber) :
             _controlBoardNumber(controlBoardNumber),
+            Driver(controlBoardNumber),
             Cards{  Card(1, controlBoardNumber), 
                     Card(2, controlBoardNumber), 
                     Card(3, controlBoardNumber), 
@@ -219,25 +223,33 @@ class ControlBoard
                 OE = OE2;
             }
 
-            for(uint8_t i=0; i < 4; i++)
-            {
-                Cards[i].disableAllMotors();
-                Cards[i].clearBuffer();
-                Cards[i].writeRegister();
-            }
+            
             
             pinMode(SRCLR, OUTPUT); // reset pin
             pinMode(RCLK, OUTPUT);  // latch pin
             pinMode(OE, OUTPUT);    // output enable pin
+
+            digitalWrite(OE, LOW);
+            digitalWrite(SRCLR, HIGH);
+
+            enableAllRegisters();
+
+            for(uint8_t i=0; i < 4; i++)
+            {
+                Cards[i].clearBuffer();
+                Cards[i].disableAllMotors();
+                Cards[i].writeRegister();
+            }
+            resetLatch();
         }
 
         void getInfo()
         {
-            Serial.println("INFORMATION");
-            Serial.println(_controlBoardNumber);
-            Serial.println(SRCLR);
-            Serial.println(RCLK);
-            Serial.println(OE);
+            Serial.println("BOARD INFORMATION");
+            Serial.print("Control Board: ");Serial.println(_controlBoardNumber);
+            Serial.print("SRCLR Pin: ");Serial.println(SRCLR);
+            Serial.print("RCLK Pin: ");Serial.println(RCLK);
+            Serial.print("OE Pin: ");Serial.println(OE);
         }
 
         void enableAllRegisters()

@@ -16,27 +16,25 @@ ControlBoard BoardTwo(2);
 void setup()
 {
     Serial.begin(115200);
-    delay(100);
 
-    BoardTwo.enableAllRegisters();
-    BoardTwo.Cards[0].clearBuffer();
-    BoardTwo.getInfo();
-    BoardTwo.Cards[0].getInfo();
+    BoardTwo.Driver.serialInit();
+
+    // BoardTwo.getInfo();
+    // BoardTwo.Cards[0].getInfo();
+
 }
 
 void loop()
 {
-    //BoardTwo.Cards[0].enableMotor(1);
-    BoardTwo.Cards[0].fillBuffer(0xFFFFFFFFFFFFFFFF);
-    BoardTwo.unlatchRegisters();
+    BoardTwo.Cards[0].enableMotor(2);
+
     BoardTwo.Cards[0].writeRegister();
-    BoardTwo.latchRegisters();
+    BoardTwo.resetLatch();
     delay(1000);
 
-    //BoardTwo.Cards[0].disableMotor(1);
-    BoardTwo.Cards[0].fillBuffer(0x0);
-    BoardTwo.unlatchRegisters();
+    BoardTwo.Cards[0].disableMotor(2);
+
     BoardTwo.Cards[0].writeRegister();
-    BoardTwo.latchRegisters();
+    BoardTwo.resetLatch();
     delay(1000);
 }
