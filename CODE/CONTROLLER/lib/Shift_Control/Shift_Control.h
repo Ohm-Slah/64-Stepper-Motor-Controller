@@ -202,7 +202,7 @@ class ControlBoard
 
     public:
         Card Cards[4];
-        Music_Serial Driver;
+        Music_Serial_To_Slave Driver;
 
         ControlBoard(uint8_t controlBoardNumber) :
             _controlBoardNumber(controlBoardNumber),

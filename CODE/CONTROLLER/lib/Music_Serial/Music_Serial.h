@@ -53,15 +53,52 @@
 *    - 1 : state change
 *  
 */
+#define CONFIRM 'C'
 
-class Music_Serial
+#define STATECHANGE     63  // 1
+#define COMMAND         61  // 2
+#define MOTORNUMBER     56  // 5
+#define FREQUENCYSTART  44  // 12
+#define FREQUENCYEND    32  // 12
+#define MICROSTEPSTART  29  // 3
+#define MICROSTEPEND    26  // 3
+#define TIMEINMS        10  // 16
+#define NOTESUSTAINED   9   // 1
+
+class Music_Serial_From_Computer
+{
+    private:
+
+    public:
+        Music_Serial_From_Computer()
+        {
+
+        }
+
+        void serialInit()
+        {
+            Serial.begin(115200);
+        }
+
+        void send(char toSend[])
+        {
+
+        }
+
+        void read()
+        {
+
+        }
+};
+
+class Music_Serial_To_Slave
 {
     private:
         char _readLine[100];
         uint8_t _controlBoardNumber;
     
     public:
-        Music_Serial(uint8_t controlBoardNumber) :
+        Music_Serial_To_Slave(uint8_t controlBoardNumber) :
         _controlBoardNumber(controlBoardNumber)
         {
             
@@ -93,18 +130,38 @@ class Music_Serial
             }else {
                 Serial.println("ERROR with serial comms");
             }
+
             pinMode(13, OUTPUT);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
-            delay(250);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
-            delay(250);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
+            for(int i=0; i<3; i++)
+            {
+                digitalWrite(13, HIGH);
+                delay(250);
+                digitalWrite(13, LOW);
+                delay(250);
+            }
+        }
+
+        void readConfirmByte()
+        {
+            if(Serial.available())
+            {
+                char readByte;
+                switch(_controlBoardNumber)
+                {
+                    case 1:
+                        readByte = Serial7.read();
+                    break;
+                    case 2:
+                        readByte = Serial8.read();
+                    break;
+                }
+
+                Serial.flush();
+
+                if (readByte != CONFIRM)
+                    Serial.println("CONFIRM BYTE ERROR");
+            }
+            
         }
 
         void send(char toSend[])
@@ -131,6 +188,26 @@ class Music_Serial
                     //Serial8.write('\n');
                 break;
             }
+        }
+
+        void sendSingleMotor(uint8_t motorNumber, uint8_t state, 
+                            uint16_t frequencyStart, uint16_t frequencyEnd=0, 
+                            uint8_t microstepStart=0, uint8_t microstepEnd=0,
+                            uint16_t timems=0, uint8_t noteSustain=0)
+        {
+            uint64_t toSend =   state << STATECHANGE | 
+                                1 << COMMAND |
+                                motorNumber << MOTORNUMBER |
+                                frequencyStart << FREQUENCYSTART |
+                                frequencyEnd << FREQUENCYEND |
+                                microstepStart << MICROSTEPSTART |
+                                microstepEnd << MICROSTEPEND |
+                                noteSustain << noteSustain;
+
+
+
+
+            // send(toSend);
         }
 
 };

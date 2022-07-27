@@ -44,18 +44,15 @@ class Music_Serial
                 Serial.println(_readLine);
                 Serial.println(sizeof(_readLine));
             }
+
             pinMode(13, OUTPUT);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
-            delay(250);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
-            delay(250);
-            digitalWrite(13, HIGH);
-            delay(250);
-            digitalWrite(13, LOW);
+            for(int i=0; i<3; i++)
+            {
+                digitalWrite(13, HIGH);
+                delay(250);
+                digitalWrite(13, LOW);
+                delay(250);
+            }
         }
 
         bool available()

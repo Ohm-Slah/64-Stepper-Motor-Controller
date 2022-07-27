@@ -39,6 +39,8 @@ class Motor
 {
 // Class to create individual motor objects to control. All things stepping is controlled here.
     public:
+        uint16_t pulseWait;
+
         Motor(uint8_t stepPin, uint8_t motorNumber)
         {
         // Constructor used for initialization of a single stepper motor
@@ -65,44 +67,46 @@ class Motor
             }
         }
 
+        uint16_t getNewTimems()
+        {
+
+            if((_glissandoMoveTime != 0) && (micros() - _msLastFrequencyChange >= _msPerFrequency))
+            {
+                _moveTimems += ;
+            }
+
+            return _moveTimems;
+        }
+
+        void singleStep()
+        {
+            if((micros() - _previousDelayms >= _moveTimems) && (_totalTimems != 0))
+            {
+                _previousDelayms += getNewTimems();
+                digitalWrite(_stepPin, HIGH);
+                delayMicroseconds(1);
+                digitalWrite(_stepPin, LOW);
+            }
+        }
+
+        void motorMove(uint16_t startFreq, uint16_t endFreq, uint16_t timems, uint8_t sustain)
+        {
+            if(! startFreq) {}  // TODO Turn motor off
+            _totalTimems = timems;
+            _msPerFrequency = timems / abs(startFreq-endFreq);
+
+            _totalMovePulses = 0;
+        }
+
     private:
-        uint8_t _stepPin,  _motorNumber;
-
-        void _generate_Acceleration_Points()
-        {
-
-        }
-
-        void _acceleration_Applied()
-        {
-
-        }
-
-        uint32_t _get_Next_Time_Delay()
-        {
-            // TODO import pitches.h file of musical note to frequency.
-            // TODO Find if acceleration curve geration is necessary/already-created
-            // TODO Gernerate acceleration curve if necessary
-            // TODO Find if note has pitch shift applied, account for this.
-            // TODO Get delay time of motor for given pulse over the frame of a single note
-            // TODO Return time in uS for delay at that given time
-            return 0;
-        }
-
-        uint32_t _get_Delay_Time()
-        {
-            return 0;
-        }
-
-        void _changeMotorState(bool desiredState)
-        {
-            // Enable/disable the motor
-        }
-
-        void _changeMotorDirection(bool desiredState)
-        {
-            // CW/CCW rotation of the motor
-        }
+        uint8_t _stepPin, _motorNumber;
+        uint16_t _glissandoMoveTime;
+        uint16_t _moveTimems, _msPerFrequency;
+        uint32_t _msLastFrequencyChange;
+        uint16_t _totalTimems;
+        uint16_t _currentTimems;
+        uint32_t _totalMovePulses;
+        uint16_t _previousDelayms;
 };
 
 #endif // STEPPER_MUSIC_H
