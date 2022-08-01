@@ -72,7 +72,7 @@ class Motor
 
             if((_glissandoMoveTime != 0) && (micros() - _msLastFrequencyChange >= _msPerFrequency))
             {
-                _moveTimems += ;
+                _moveTimems += 0;
             }
 
             return _moveTimems;
@@ -80,8 +80,16 @@ class Motor
 
         void singleStep()
         {
+            // if(_motorNumber == 2)
+            // {
+            //     Serial.println(micros() - _previousDelayms);
+            //     Serial.println(_moveTimems);
+            //     Serial.println(_totalTimems);
+            // }
+            
             if((micros() - _previousDelayms >= _moveTimems) && (_totalTimems != 0))
             {
+                Serial.println("STEP");
                 _previousDelayms += getNewTimems();
                 digitalWrite(_stepPin, HIGH);
                 delayMicroseconds(1);
@@ -89,13 +97,24 @@ class Motor
             }
         }
 
-        void motorMove(uint16_t startFreq, uint16_t endFreq, uint16_t timems, uint8_t sustain)
+        void motorMove(uint8_t state, uint16_t startFreq, uint16_t endFreq, uint16_t timems, uint8_t sustain)
         {
-            if(! startFreq) {}  // TODO Turn motor off
-            _totalTimems = timems;
-            _msPerFrequency = timems / abs(startFreq-endFreq);
-
-            _totalMovePulses = 0;
+            if(!state) 
+            {
+                _totalTimems = 0;
+            } else {
+                _totalTimems = 1;
+                _msPerFrequency = timems / abs(startFreq-endFreq);
+                _totalMovePulses = startFreq * timems;
+                pulseWait = (uint16_t) (1.0/startFreq * 1000000);
+                _moveTimems = pulseWait;
+                _previousDelayms = micros();
+            }
+            Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
+            Serial.print("pulseWait : ");Serial.println(pulseWait);
+            Serial.print("state : ");Serial.println(state);
+            Serial.print("_moveTimems : ");Serial.println(_moveTimems);
+            Serial.print("_totalTimems : ");Serial.println(_totalTimems);
         }
 
     private:

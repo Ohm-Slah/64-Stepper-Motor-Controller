@@ -169,23 +169,13 @@ class Music_Serial_To_Slave
             switch(_controlBoardNumber)
             {
                 case 1:
-                    // for(uint8_t i=0; i<sizeof(toSend); i++)
-                    // {
-                    //     Serial7.write(toSend[i]);
-                    // }
-                    // Serial7.write('\n');
                     Serial7.write(toSend, sizeof(toSend));
+                    Serial7.write('\n');
                 break;
 
                 case 2:
-                    // for(uint8_t i=0; i<sizeof(toSend)-1; i++)
-                    // {
-                    //     Serial8.write(toSend[i]);
-                    // }
-                    // Serial8.write('\n');
-                    
                     Serial8.write(toSend, sizeof(toSend));
-                    //Serial8.write('\n');
+                    Serial8.write('\n');
                 break;
             }
         }
@@ -195,19 +185,26 @@ class Music_Serial_To_Slave
                             uint8_t microstepStart=0, uint8_t microstepEnd=0,
                             uint16_t timems=0, uint8_t noteSustain=0)
         {
-            uint64_t toSend =   state << STATECHANGE | 
-                                1 << COMMAND |
-                                motorNumber << MOTORNUMBER |
-                                frequencyStart << FREQUENCYSTART |
-                                frequencyEnd << FREQUENCYEND |
-                                microstepStart << MICROSTEPSTART |
-                                microstepEnd << MICROSTEPEND |
-                                noteSustain << noteSustain;
+            uint64_t toSend =   (uint64_t)state << STATECHANGE | 
+                                (uint64_t)1 << COMMAND |
+                                (uint64_t)motorNumber << MOTORNUMBER |
+                                (uint64_t)frequencyStart << FREQUENCYSTART |
+                                (uint64_t)frequencyEnd << FREQUENCYEND |
+                                (uint64_t)microstepStart << MICROSTEPSTART |
+                                (uint64_t)microstepEnd << MICROSTEPEND |
+                                (uint64_t)noteSustain << noteSustain;
 
+            Serial.println(toSend, BIN);
+            Serial.print(state);Serial.print(" : ");Serial.print(STATECHANGE);Serial.print(" : ");Serial.println(state << STATECHANGE);
 
-
-
-            // send(toSend);
+            char cstr[8];
+            for(int i=0; i < 8; i++)
+            {
+                cstr[7-i] = (toSend >> (8*i)) & 0xFF;
+                Serial.print(cstr[i], BIN);Serial.print(" ");
+            }
+            Serial.println();
+            send(cstr);
         }
 
 };

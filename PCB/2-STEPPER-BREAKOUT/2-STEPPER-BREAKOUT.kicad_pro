@@ -382,7 +382,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "2-STEPPER-BREAKOUT.step",
+      "step": "2-STEPPER-BREAKOUT_MIR.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

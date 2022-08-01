@@ -21,20 +21,26 @@ void setup()
 
     // BoardTwo.getInfo();
     // BoardTwo.Cards[0].getInfo();
-
+    BoardTwo.Cards[0].enableMotor(2);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
 }
 
 void loop()
 {
-    BoardTwo.Cards[0].enableMotor(2);
+    BoardTwo.Driver.sendSingleMotor(2, 1, 200);
+    delay(500);
+    BoardTwo.Driver.sendSingleMotor(2, 0, 0);
+    delay(500);
+    // BoardTwo.Cards[0].enableMotor(2);
 
-    BoardTwo.Cards[0].writeRegister();
-    BoardTwo.resetLatch();
-    delay(1000);
+    // BoardTwo.Cards[0].writeRegister();
+    // BoardTwo.resetLatch();
+    // delay(1000);
 
-    BoardTwo.Cards[0].disableMotor(2);
+    // BoardTwo.Cards[0].disableMotor(2);
 
-    BoardTwo.Cards[0].writeRegister();
-    BoardTwo.resetLatch();
-    delay(1000);
+    // BoardTwo.Cards[0].writeRegister();
+    // BoardTwo.resetLatch();
+    // delay(1000);
 }
