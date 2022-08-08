@@ -8,7 +8,10 @@ def csv2list(csvString):
     return rows
 
 def setup():
-    f = open("D:/Github/64-Stepper-Motor-Controller/CODE/GUI/example_converted.csv", "rb")
+    try:
+        f = open("D:/Github/64-Stepper-Motor-Controller/CODE/GUI/example_converted.csv", "rb")
+    except:
+        f = open("C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/CODE/GUI/MIDI_MUSIC_CREATION_TOOL/example_converted.csv", "rb")
     lines = f.read()
     f.close()
     lines = csv2list(lines)
