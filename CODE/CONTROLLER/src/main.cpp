@@ -28,7 +28,38 @@ void setup()
 
 void loop()
 {
+    BoardTwo.Cards[0].changeMicroStep(2, 1);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
     BoardTwo.Driver.sendSingleMotor(2, 1, 200);
+    delay(500);
+    BoardTwo.Driver.sendSingleMotor(2, 0, 0);
+    delay(500);
+    BoardTwo.Cards[0].changeMicroStep(2, 2);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
+    BoardTwo.Driver.sendSingleMotor(2, 1, 400);
+    delay(500);
+    BoardTwo.Driver.sendSingleMotor(2, 0, 0);
+    delay(500);
+    BoardTwo.Cards[0].changeMicroStep(2, 3);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
+    BoardTwo.Driver.sendSingleMotor(2, 1, 800);
+    delay(500);
+    BoardTwo.Driver.sendSingleMotor(2, 0, 0);
+    delay(500);
+    BoardTwo.Cards[0].changeMicroStep(2, 4);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
+    BoardTwo.Driver.sendSingleMotor(2, 1, 1600);
+    delay(500);
+    BoardTwo.Driver.sendSingleMotor(2, 0, 0);
+    delay(500);
+    BoardTwo.Cards[0].changeMicroStep(2, 5);
+    BoardTwo.Cards[0].writeRegister();
+    BoardTwo.resetLatch();
+    BoardTwo.Driver.sendSingleMotor(2, 1, 3200);
     delay(500);
     BoardTwo.Driver.sendSingleMotor(2, 0, 0);
     delay(500);

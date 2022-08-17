@@ -27,7 +27,7 @@ void loop() {
 
   	for(int i=0; i<32; i++)
   	{
-		if(! AllMotors[i].pulseWait)
+		if(AllMotors[i].pulseWait)
 		{
 			AllMotors[i].singleStep();
 		}

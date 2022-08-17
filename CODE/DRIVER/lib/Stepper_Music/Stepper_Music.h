@@ -82,14 +82,16 @@ class Motor
         {
             // if(_motorNumber == 2)
             // {
-            //     Serial.println(micros() - _previousDelayms);
-            //     Serial.println(_moveTimems);
-            //     Serial.println(_totalTimems);
+            //     // Serial.println(micros() - _previousDelayms);
+            //     // Serial.println(_moveTimems);
+            //     // Serial.println(_totalTimems);
+            //     // Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
+            //     // Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
             // }
             
             if((micros() - _previousDelayms >= _moveTimems) && (_totalTimems != 0))
             {
-                Serial.println("STEP");
+                //Serial.println("STEP");
                 _previousDelayms += getNewTimems();
                 digitalWrite(_stepPin, HIGH);
                 delayMicroseconds(1);
@@ -110,11 +112,15 @@ class Motor
                 _moveTimems = pulseWait;
                 _previousDelayms = micros();
             }
-            Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
-            Serial.print("pulseWait : ");Serial.println(pulseWait);
-            Serial.print("state : ");Serial.println(state);
-            Serial.print("_moveTimems : ");Serial.println(_moveTimems);
-            Serial.print("_totalTimems : ");Serial.println(_totalTimems);
+            // Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
+            // Serial.print("pulseWait : ");Serial.println(pulseWait);
+            // Serial.print("state : ");Serial.println(state);
+            // Serial.print("micros : ");Serial.println(micros());
+            // Serial.print("_previousDelayms : ");Serial.println(_previousDelayms);
+            // Serial.print("_moveTimems : ");Serial.println(_moveTimems);
+            // Serial.print("_totalTimems : ");Serial.println(_totalTimems);
+            // Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
+            // Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
         }
 
     private:
@@ -125,7 +131,7 @@ class Motor
         uint16_t _totalTimems;
         uint16_t _currentTimems;
         uint32_t _totalMovePulses;
-        uint16_t _previousDelayms;
+        uint64_t _previousDelayms;
 };
 
 #endif // STEPPER_MUSIC_H
