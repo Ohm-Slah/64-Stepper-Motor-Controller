@@ -7,6 +7,7 @@
 */
 
 #include "Pinout.h"
+#include "pitches.h"
 
 #define DEBUG 1
 
@@ -128,13 +129,13 @@ class Card
 
         void enableMotor(uint8_t motorNum)
         {
-            _buffer &= ~(uint64_t)(1 << (enablePins[motorNum-1]-1));
+            _buffer &= ~((uint64_t)1 << (enablePins[motorNum-1]-1));
             !DEBUG ? true : Serial.print("MotorNum: ");
             !DEBUG ? true : Serial.println(motorNum);
             !DEBUG ? true : Serial.print("EnablePin: ");
             !DEBUG ? true : Serial.println(enablePins[motorNum-1]-1);
             !DEBUG ? true : Serial.print("Enable: "); 
-            !DEBUG ? true : Serial.print((uint64_t)(1 << (enablePins[motorNum-1]-1)));
+            !DEBUG ? true : Serial.print(((uint64_t)1 << (enablePins[motorNum-1]-1)));
             !DEBUG ? true : Serial.print("\t");
             !DEBUG ? true : Serial.println(_buffer, BIN);
         }
@@ -172,22 +173,22 @@ class Card
             switch (microStep)
             {
                 case 1:
-                    _buffer &= ~(uint64_t)((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
+                    _buffer &= ~(((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS2Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS3Pins[motorNum-1]-1)));
                 break;
                 case 2:
-                    _buffer &= ~(uint64_t)((1 << (MS2Pins[motorNum-1]-1)) | (1 <<(MS3Pins[motorNum-1]-1)));
+                    _buffer &= ~(((uint64_t)1 << (MS2Pins[motorNum-1]-1)) | ((uint64_t)1 <<(MS3Pins[motorNum-1]-1)));
                     _buffer |= (1 << (MS1Pins[motorNum-1]-1));
                 break;
                 case 3:
-                    _buffer &= ~(uint64_t)((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
-                    _buffer |= (1 << (MS2Pins[motorNum-1]-1));
+                    _buffer &= ~(((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS3Pins[motorNum-1]-1)));
+                    _buffer |= ((uint64_t)1 << (MS2Pins[motorNum-1]-1));
                 break;
                 case 4:
-                    _buffer &= ~(uint64_t)(1 << (MS3Pins[motorNum]-1));
-                    _buffer |= ((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)));
+                    _buffer &= ~((uint64_t)1 << (MS3Pins[motorNum]-1));
+                    _buffer |= (((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS2Pins[motorNum-1]-1)));
                 break;
                 case 5:
-                    _buffer |= ((1 << (MS1Pins[motorNum-1]-1)) | (1 << (MS2Pins[motorNum-1]-1)) | (1 << (MS3Pins[motorNum-1]-1)));
+                    _buffer |= (((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS2Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS3Pins[motorNum-1]-1)));
                 break;
             }
         }
@@ -250,6 +251,30 @@ class ControlBoard
             Serial.print("SRCLR Pin: ");Serial.println(SRCLR);
             Serial.print("RCLK Pin: ");Serial.println(RCLK);
             Serial.print("OE Pin: ");Serial.println(OE);
+        }
+
+        void midiEvent(byte channel, byte note, byte velocity)
+        {
+            byte cardNumber = (channel-1) / 8;
+            byte motorNumber = channel;
+            uint32_t frequency = 1000000/pitchVals[note];
+            Serial.println(cardNumber);
+            Serial.println(motorNumber);
+            Serial.println(note);
+            Serial.println(frequency);
+
+            if (velocity > 0)
+            {
+                Cards[cardNumber].enableMotor(motorNumber);
+            } else {
+                Cards[cardNumber].disableMotor(motorNumber);
+            }
+            
+            Cards[cardNumber].changeMicroStep(motorNumber, velocity/25);
+            Cards[cardNumber].writeRegister();
+            resetLatch();
+            Driver.sendSingleMotor(motorNumber, (velocity ? true : false), frequency);
+            
         }
 
         void enableAllRegisters()

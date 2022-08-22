@@ -53,6 +53,8 @@
 *    - 1 : state change
 *  
 */
+#include "Light_Control.h"
+
 #define CONFIRM 'C'
 
 #define STATECHANGE     63  // 1
@@ -75,9 +77,11 @@ class Music_Serial_From_Computer
 
         }
 
+        
+
         void serialInit()
         {
-            Serial.begin(115200);
+            
         }
 
         void send(char toSend[])
@@ -89,6 +93,8 @@ class Music_Serial_From_Computer
         {
 
         }
+
+        
 };
 
 class Music_Serial_To_Slave
@@ -205,6 +211,8 @@ class Music_Serial_To_Slave
             }
             Serial.println();
             send(cstr);
+
+            changeBoxColor(motorNumber, 1, (makeColor(motorNumber*45, 100, 50)) * state);
         }
 
 };

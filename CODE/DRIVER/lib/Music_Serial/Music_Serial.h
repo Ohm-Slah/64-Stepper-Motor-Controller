@@ -155,15 +155,15 @@ class Music_Serial
             microstepEnd = masterRead >> MICROSTEPEND & 0B111;
             timems = masterRead >> TIMEINMS & 0B1111111111111111;
             noteSustain = masterRead >> NOTESUSTAINED & 0B1;
-            // Serial.print("motorNumber : ");Serial.println(motorNumber);
-            // Serial.print("command : ");Serial.println(command);
-            // Serial.print("frequencyStart : ");Serial.println(frequencyStart);
-            // Serial.print("frequencyEnd : ");Serial.println(frequencyEnd);
-            // Serial.print("microstepStart : ");Serial.println(microstepStart);
-            // Serial.print("microstepEnd : ");Serial.println(microstepEnd);
-            // Serial.print("timems : ");Serial.println(timems);
-            // Serial.print("noteSustain : ");Serial.println(noteSustain);
-            // Serial.print("state : ");Serial.println(state);
+            Serial.print("motorNumber : ");Serial.println(motorNumber);
+            Serial.print("command : ");Serial.println(command);
+            Serial.print("frequencyStart : ");Serial.println(frequencyStart);
+            Serial.print("frequencyEnd : ");Serial.println(frequencyEnd);
+            Serial.print("microstepStart : ");Serial.println(microstepStart);
+            Serial.print("microstepEnd : ");Serial.println(microstepEnd);
+            Serial.print("timems : ");Serial.println(timems);
+            Serial.print("noteSustain : ");Serial.println(noteSustain);
+            Serial.print("state : ");Serial.println(state);
 
             AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, timems, noteSustain);
         }
