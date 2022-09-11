@@ -10,8 +10,8 @@
 #include <OctoWS2811.h>
 
 // Any group of digital pins may be used
-const int numPins = 1;
-byte pinList[numPins] = {1};//, 2, 3, 4, 5, 6, 7, 8};
+const int numPins = 3;
+byte pinList[numPins] = {1, 2, 3};//, 2, 3, 4, 5, 6, 7, 8};
 
 const uint8_t boxRows = 8;
 const uint8_t boxColumns = 8;

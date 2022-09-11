@@ -12,19 +12,19 @@
 #include "Shift_Control.h"
 #include "Light_Control.h"
 
-ControlBoard BoardTwo(2);
+MainControl Control();
 
 
 void OnNoteOff(byte channel, byte note, byte velocity)
 {
     Serial.print("channel On: ");Serial.println(channel);
-    BoardTwo.midiEvent(channel, note, velocity);
+    // BoardTwo.midiEvent(channel, note, velocity);
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity)
 {
     Serial.print("channel Off: ");Serial.println(channel);
-    BoardTwo.midiEvent(channel, note, velocity);
+    // BoardTwo.midiEvent(channel, note, velocity);
 }
 
 void setup()
@@ -34,61 +34,13 @@ void setup()
     usbMIDI.setHandleNoteOff(OnNoteOff);
     usbMIDI.setHandleNoteOn(OnNoteOn);
 
-    BoardTwo.Driver.serialInit();
-
-    // BoardTwo.getInfo();
-    // BoardTwo.Cards[0].getInfo();
-    // BoardTwo.Cards[0].enableMotor(2);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
     leds.begin();
     leds.show();
     delay(3000);
-    Serial.println("TEST");
-    BoardTwo.Cards[0].writeRegister();
-    BoardTwo.resetLatch();
-    BoardTwo.Driver.sendSingleMotor(4, 1, 200);
-    delay(2000);
-    BoardTwo.Driver.sendSingleMotor(4, 0, 0);
 }
 
 void loop()
 {
     usbMIDI.read();
-    // BoardTwo.Cards[0].changeMicroStep(2, 1);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
-    // BoardTwo.Driver.sendSingleMotor(2, 1, 200);
-    // delay(500);
-    // BoardTwo.Driver.sendSingleMotor(2, 0, 0);
-    // delay(500);
-    // BoardTwo.Cards[0].changeMicroStep(2, 2);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
-    // BoardTwo.Driver.sendSingleMotor(2, 1, 400);
-    // delay(500);
-    // BoardTwo.Driver.sendSingleMotor(2, 0, 0);
-    // delay(500);
-    // BoardTwo.Cards[0].changeMicroStep(2, 3);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
-    // BoardTwo.Driver.sendSingleMotor(2, 1, 800);
-    // delay(500);
-    // BoardTwo.Driver.sendSingleMotor(2, 0, 0);
-    // delay(500);
-    // BoardTwo.Cards[0].changeMicroStep(2, 4);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
-    // BoardTwo.Driver.sendSingleMotor(2, 1, 1600);
-    // delay(500);
-    // BoardTwo.Driver.sendSingleMotor(2, 0, 0);
-    // delay(500);
-    // BoardTwo.Cards[0].changeMicroStep(2, 5);
-    // BoardTwo.Cards[0].writeRegister();
-    // BoardTwo.resetLatch();
-    // BoardTwo.Driver.sendSingleMotor(2, 1, 3200);
-    // delay(500);
-    // BoardTwo.Driver.sendSingleMotor(2, 0, 0);
-    // delay(500);
 
 }

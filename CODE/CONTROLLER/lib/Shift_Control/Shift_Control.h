@@ -317,3 +317,17 @@ class ControlBoard
             !DEBUG ? true : Serial.println("Register Reset");
         }
 };
+
+class MainControl
+{
+    private:
+
+    public:
+        ControlBoard ControlBoards[2];
+
+        MainControl() : ControlBoards { ControlBoard(1), ControlBoard(2) }
+        {
+            ControlBoards[0].Driver.serialInit();
+            ControlBoards[1].Driver.serialInit();
+        }
+};
