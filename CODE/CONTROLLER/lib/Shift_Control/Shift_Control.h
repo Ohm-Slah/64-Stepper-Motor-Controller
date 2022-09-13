@@ -253,10 +253,8 @@ class ControlBoard
             Serial.print("OE Pin: ");Serial.println(OE);
         }
 
-        void midiEvent(byte channel, byte note, byte velocity)
+        void midiEvent(byte cardNumber, byte motorNumber, byte note, byte velocity)
         {
-            byte cardNumber = (channel-1) / 8;
-            byte motorNumber = channel;
             uint32_t frequency = 1000000/pitchVals[note];
             Serial.println(cardNumber);
             Serial.println(motorNumber);
@@ -318,16 +316,42 @@ class ControlBoard
         }
 };
 
+ControlBoard BoardOne(1);
+ControlBoard BoardTwo(2);
+
 class MainControl
 {
     private:
-
     public:
-        ControlBoard ControlBoards[2];
-
-        MainControl() : ControlBoards { ControlBoard(1), ControlBoard(2) }
+        MainControl()
         {
-            ControlBoards[0].Driver.serialInit();
-            ControlBoards[1].Driver.serialInit();
+            BoardOne.Driver.serialInit();
+            BoardTwo.Driver.serialInit();
+        }
+
+        void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity)
+        {
+            //uint8_t x = ;
+            //BoardOne.midiEvent(gridToCard());
+        }
+
+        uint8_t gridToBoard(uint8_t x, uint8_t y)
+        {
+            return (x > 3) + 1;
+        }
+
+        uint8_t gridToCard(uint8_t x, uint8_t y)
+        {
+            return (y / 2);
+        }
+
+        uint8_t gridToMotorInCard(uint8_t x, uint8_t y)
+        {
+            return (y % 2 ? 0 : 4) + (x % 4) + 1;
+        }
+
+        uint8_t gridToMotorNumber(uint8_t x, uint8_t y)
+        {
+            return gridToCard(x, y) * 8 + gridToMotorInCard(x, y);
         }
 };

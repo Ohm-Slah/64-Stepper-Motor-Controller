@@ -3,7 +3,7 @@
  * Project: 64 Motor Driver
  * Author: Elliot Eickholtz
  * Purpose: Master controller to 2 slave Teensy 4.0's, 40 shift registers, and LED lighting. 
- * Custom com protocal used for communication over USB and serial busses.
+ * Custom com protocol used for communication over USB and serial busses.
  * 
 */
 
@@ -13,6 +13,8 @@
 #include "Light_Control.h"
 
 MainControl Control();
+// ControlBoard BoardOne(1);
+// ControlBoard BoardTwo(2);
 
 
 void OnNoteOff(byte channel, byte note, byte velocity)
@@ -30,6 +32,9 @@ void OnNoteOn(byte channel, byte note, byte velocity)
 void setup()
 {
     Serial.begin(115200);
+
+    // BoardOne.Driver.serialInit();
+    // BoardTwo.Driver.serialInit();
 
     usbMIDI.setHandleNoteOff(OnNoteOff);
     usbMIDI.setHandleNoteOn(OnNoteOn);
