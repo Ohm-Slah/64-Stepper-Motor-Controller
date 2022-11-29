@@ -321,9 +321,9 @@ ControlBoard BoardTwo(2);
 
 class MainControl
 {
-    private:
+    //private:
     public:
-        MainControl()
+        MainControl(uint8_t literallyNothing)
         {
             BoardOne.Driver.serialInit();
             BoardTwo.Driver.serialInit();
@@ -331,8 +331,12 @@ class MainControl
 
         void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity)
         {
-            //uint8_t x = ;
-            //BoardOne.midiEvent(gridToCard());
+            uint8_t x = (channel-1) % 8;
+            uint8_t y = channel > 8 ? 1 : 0;
+
+            (gridToCard(x, y) == 1)
+            ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity)
+            :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity);
         }
 
         uint8_t gridToBoard(uint8_t x, uint8_t y)

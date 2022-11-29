@@ -12,21 +12,19 @@
 #include "Shift_Control.h"
 #include "Light_Control.h"
 
-MainControl Control();
-// ControlBoard BoardOne(1);
-// ControlBoard BoardTwo(2);
+MainControl Control(1);
 
 
 void OnNoteOff(byte channel, byte note, byte velocity)
 {
     Serial.print("channel On: ");Serial.println(channel);
-    // BoardTwo.midiEvent(channel, note, velocity);
+    Control.midiEvent(channel, note, velocity);
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity)
 {
     Serial.print("channel Off: ");Serial.println(channel);
-    // BoardTwo.midiEvent(channel, note, velocity);
+    Control.midiEvent(channel, note, velocity);
 }
 
 void setup()
