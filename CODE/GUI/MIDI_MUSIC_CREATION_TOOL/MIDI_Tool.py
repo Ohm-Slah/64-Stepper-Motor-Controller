@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from mido import MidiFile
 import mido
+import time
 
 #!https://github.com/vishnubob/python-midi
 #https://tkdocs.com/tutorial/firstexample.html
@@ -158,7 +159,8 @@ class Application:
 root = Tk()
 Application(root)
 #root.geometry('800x700')
-mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+#mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+mid = MidiFile("D:\\Github\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
 
 # nothing = input("")
 root.resizable(False, False)
@@ -171,16 +173,20 @@ for msg in mid:
     if not msg.is_meta and not msg.is_cc():
         try:
             currentTime += msg.time
+            print({msg.note: currentTime}, msg.velocity)
             if msg.velocity > 0:
-                channels[msg.channel].append({msg.note: currentTime})
-                print(channels)
-                pause = input("PAUSE")
+                channels[msg.channel][msg.note] = currentTime
+                #pause = input("PAUSE")
+                print(channels[msg.channel])
+                print("---------------------------------------------------------------------------")
             else:
                 print(channels[msg.channel], "\n\n\n\n")
+                del channels[msg.channel][msg.note]
+
                 #print(f"Channel {msg.channel}")#: {currentTime-channels[msg.channel]}")
                 #channels[msg.channel] = 0
             #print(msg.channel, msg.velocity, msg.time)
-
+            time.sleep(0.1)
         except AttributeError:
             pass
 
