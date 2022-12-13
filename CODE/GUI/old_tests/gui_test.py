@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-import py_midicsv as pm
+#import py_midicsv as pm
 
 # <Button-1>	
 # Button 1 is the leftmost button, button 2 is the middle button(where available), and button 3 the rightmost button.
@@ -31,57 +31,95 @@ import py_midicsv as pm
 # <Visibility>	Happens when at least some part of the application window becomes visible on the screen.
 
 # Load the MIDI file and parse it into CSV format
-csv_string = pm.midi_to_csv("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/VampireKillerCV1.mid")
+# csv_string = pm.midi_to_csv("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/VampireKillerCV1.mid")
 
-with open("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/example_converted.csv", "w") as f:
-    f.writelines(csv_string)
+# with open("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/example_converted.csv", "w") as f:
+#     f.writelines(csv_string)
 
-# Parse the CSV output of the previous command back into a MIDI file
-midi_object = pm.csv_to_midi(csv_string)
+# # Parse the CSV output of the previous command back into a MIDI file
+# midi_object = pm.csv_to_midi(csv_string)
 
-# Save the parsed MIDI file to disk
-with open("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/example_converted.mid", "wb") as output_file:
-    midi_writer = pm.FileWriter(output_file)
-    midi_writer.write(midi_object)
+# # Save the parsed MIDI file to disk
+# with open("D:/Github/64-Stepper-Motor-Controller/CODE/gui_testing/example_converted.mid", "wb") as output_file:
+#     midi_writer = pm.FileWriter(output_file)
+#     midi_writer.write(midi_object)
 
 
-def Highlight(event, arg):
-    arg.config(bg='blue')
-    return
+# def Highlight(event, arg):
+#     arg.config(bg='blue')
+#     return
 
-def Dehighlight(event, arg):
-    arg.config(bg='black')
-    return
+# def Dehighlight(event, arg):
+#     arg.config(bg='black')
+#     return
 
-# master = Tk()
-# box = Button(master, text = 'test', command=master.destroy)
-# box.config(bg='green', font=('times', 12, 'italic'))
-# box.bind('<Enter>',Highlight)
-# box.bind('<Leave>',Dehighlight)
-# box.pack()
+# # root = Tk()
+# # box = Button(root, text = 'test', command=root.destroy)
+# # box.config(bg='green', font=('times', 12, 'italic'))
+# # box.bind('<Enter>',Highlight)
+# # box.bind('<Leave>',Dehighlight)
+# # box.pack()
+# # mainloop()
+
+# #!https://github.com/vishnubob/python-midi
+
+# root = Tk()
+# root.geometry('610x800')
+# root.resizable(False, False)
+# root.title('Motor Music Creation Tool')
+# motors = []
+
+
+# for i in range(8):
+#     for j in range(8):
+#         motors.append(Button(root, height=4, width=8, text=str(j+(8*i)+1), bg='black', fg='white', command=root.destroy))
+        
+# #https://tkdocs.com/tutorial/firstexample.html
+
+# for j, i in enumerate(motors):
+#     #   https://stackoverflow.com/questions/3296893/how-to-pass-an-argument-to-event-handler-in-tkinter
+#     i.bind('<Enter>', lambda event, arg=i: Highlight(event, arg))
+#     i.bind('<Leave>', lambda event, arg=i: Dehighlight(event, arg))
+#     i.grid(row=int(j/8)+1, column=j%8, padx=5, pady=5)
+
 # mainloop()
 
-#!https://github.com/vishnubob/python-midi
-
-master = Tk()
-master.geometry('610x800')
-master.resizable(False, False)
-master.title('Motor Music Creation Tool')
-motors = []
-
-
-for i in range(8):
-    for j in range(8):
-        motors.append(Button(master, height=4, width=8, text=str(j+(8*i)+1), bg='black', fg='white', command=master.destroy))
-        
-
-
-for j, i in enumerate(motors):
-    #   https://stackoverflow.com/questions/3296893/how-to-pass-an-argument-to-event-handler-in-tkinter
-    i.bind('<Enter>', lambda event, arg=i: Highlight(event, arg))
-    i.bind('<Leave>', lambda event, arg=i: Dehighlight(event, arg))
-    i.grid(row=int(j/8)+1, column=j%8, padx=5, pady=5)
 
 
 
-mainloop()
+
+
+
+# root = Tk()
+# l =ttk.Label(root, text="Starting...")
+# l.grid()
+# l.bind('<Enter>', lambda e: l.configure(text='Moved mouse inside'))
+# l.bind('<Leave>', lambda e: l.configure(text='Moved mouse outside'))
+# l.bind('<ButtonPress-1>', lambda e: l.configure(text='Clicked left mouse button'))
+# l.bind('<3>', lambda e: l.configure(text='Clicked right mouse button'))
+# l.bind('<Double-1>', lambda e: l.configure(text='Double clicked'))
+# l.bind('<B3-Motion>', lambda e: l.configure(text='right button drag to %d,%d' % (e.x, e.y)))
+# root.mainloop()
+
+
+
+import tkinter as tk
+
+root = tk.Tk()
+
+textContainer = tk.Frame(root, borderwidth=1, relief="sunken")
+text = tk.Text(textContainer, width=24, height=13, wrap="none", borderwidth=0)
+textVsb = tk.Scrollbar(textContainer, orient="vertical", command=text.yview)
+textHsb = tk.Scrollbar(textContainer, orient="horizontal", command=text.xview)
+text.configure(yscrollcommand=textVsb.set, xscrollcommand=textHsb.set)
+
+text.grid(row=0, column=0, sticky="nsew")
+textVsb.grid(row=0, column=1, sticky="ns")
+textHsb.grid(row=1, column=0, sticky="ew")
+
+textContainer.grid_rowconfigure(0, weight=1)
+textContainer.grid_columnconfigure(0, weight=1)
+
+textContainer.pack(side="top", fill="both", expand=True)
+
+root.mainloop()
