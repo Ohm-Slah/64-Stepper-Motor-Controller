@@ -268,10 +268,10 @@ class ControlBoard
                 Cards[cardNumber].disableMotor(motorNumber);
             }
             
-            Cards[cardNumber].changeMicroStep(motorNumber, velocity/25);
+            Cards[cardNumber].changeMicroStep(motorNumber, int(map(velocity, 0, 127, 5, 1)));
             Cards[cardNumber].writeRegister();
             resetLatch();
-            Driver.sendSingleMotor(motorNumber, (velocity ? true : false), frequency);
+            Driver.sendSingleMotor(motorNumber+(cardNumber*8), (velocity ? true : false), frequency);//!temporary change
             
         }
 
@@ -334,9 +334,14 @@ class MainControl
             uint8_t x = (channel-1) % 8;
             uint8_t y = channel > 8 ? 1 : 0;
 
-            (gridToCard(x, y) == 1)
-            ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity)
-            :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity);
+            //! temporary
+            Serial.print("Card: ");Serial.println(channel > 8 ? 1 : 0);
+            Serial.print("Motor on Card: ");Serial.println(((channel-1)%8)+1);
+            BoardTwo.midiEvent(channel > 8 ? 1 : 0,((channel-1)%8)+1, note, velocity);
+
+            // (gridToCard(x, y) == 1)
+            // ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity)
+            // :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity);
         }
 
         uint8_t gridToBoard(uint8_t x, uint8_t y)
