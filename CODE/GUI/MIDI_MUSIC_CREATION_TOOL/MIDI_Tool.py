@@ -99,6 +99,7 @@ pitches = {
     "DS8" : 111
 }
 
+channelColors = ["red", "blue", "green", "yellow", "cyan", "purple", "orange", "pink", "red", "blue", "green", "yellow", "cyan", "purple", "orange", "pink"]
 
 class Application: 
     def __init__(self, root):
@@ -143,6 +144,15 @@ class Application:
 
         #print(pitches.keys())
 
+        
+
+    def _on_mousewheel_canvas(self, event):
+        #print(event.delta)
+        self.canvas.xview_scroll(int(-1*(event.delta/120)), "units")
+
+    def fillPlayerArea(self, msgs, lengthInSeconds):
+        self.canvas.config(scrollregion=(0, 0, int(lengthInSeconds*200), 1000))
+
         self.snapRegions = []
         for i, pitch in enumerate(pitches):
             x1 = 0
@@ -152,45 +162,54 @@ class Application:
             self.snapRegions.append(y1)
             self.canvas.create_rectangle(x1, y1, x2, y2, fill='white' if 'S' not in pitch else 'grey')
 
-    def _on_mousewheel_canvas(self, event):
-        #print(event.delta)
-        self.canvas.xview_scroll(int(-1*(event.delta/120)), "units")
+        print(self.snapRegions)
+        
+        for i, channel in enumerate(msgs):
+            if channel:
+                print(f"{i}-----------------")
+                for msg in channel:
+                    if msg[0] <= 111 and msg[0] >= 23:
+                        x1 = int(msg[1]*200)
+                        x2 = int(msg[2]*200)
+                        y1 = self.snapRegions[msg[0]-23]
+                        y2 = y1 + 10
+                        self.canvas.create_rectangle(x1, y1, x2, y2, fill=channelColors[i])
 
 root = Tk()
-Application(root)
+GUI = Application(root)
 #root.geometry('800x700')
-#mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
-mid = MidiFile("D:\\Github\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+#mid = MidiFile("D:\\Github\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
 
 # nothing = input("")
 root.resizable(False, False)
 
 currentTime = 0
-channels = [{}]*16
-print(channels)
+messages = [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+activeChannels = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
 
 for msg in mid:
     if not msg.is_meta and not msg.is_cc():
         try:
             currentTime += msg.time
-            print({msg.note: currentTime}, msg.velocity)
+            
             if msg.velocity > 0:
-                channels[msg.channel][msg.note] = currentTime
-                #pause = input("PAUSE")
-                print(channels[msg.channel])
-                print("---------------------------------------------------------------------------")
+                activeChannels[msg.channel][msg.note] = [currentTime, msg.velocity]
+                #print(activeChannels)
+                
             else:
-                print(channels[msg.channel], "\n\n\n\n")
-                del channels[msg.channel][msg.note]
-
-                #print(f"Channel {msg.channel}")#: {currentTime-channels[msg.channel]}")
-                #channels[msg.channel] = 0
-            #print(msg.channel, msg.velocity, msg.time)
-            time.sleep(0.1)
+                #print(activeChannels[msg.channel][msg.note][1])
+                messages[msg.channel].append([msg.note, activeChannels[msg.channel][msg.note][0], currentTime, activeChannels[msg.channel][msg.note][1]])
+                del activeChannels[msg.channel][msg.note]
+            
+            #time.sleep(0.1)
         except AttributeError:
             pass
 
-print(channels)
+#print(messages)
 print(currentTime)
+GUI.fillPlayerArea(messages, currentTime)
 
-#root.mainloop()
+
+
+root.mainloop()
