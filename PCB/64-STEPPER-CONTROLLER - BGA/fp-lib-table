@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "REFERENCES")(type "KiCad")(uri "D:/Github/64-Stepper-Motor-Controller/PCB/LIBRARIES")(options "")(descr ""))
+  (lib (name "Library")(type "KiCad")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/Library.pretty")(options "")(descr ""))
+)

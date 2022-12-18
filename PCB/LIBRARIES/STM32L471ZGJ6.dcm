@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP STM32L471ZGJ6
+D Ultra-low-power with FPU Arm Cortex-M4 MCU 80 MHz with 1 Mbyte of Flash memory, DFSDM
+K
+F https://www.st.com/resource/en/datasheet/stm32l471qe.pdf
+$ENDCMP
+#
+#End Doc Library
