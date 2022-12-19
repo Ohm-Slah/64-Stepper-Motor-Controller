@@ -20,12 +20,35 @@ class Card
         uint8_t _boardNumber;
         uint64_t _buffer = 0;
 
+        int8_t _maxMidiNoteForMicrostep[6] = {
+            -1, // No zero setting for microstepping
+            73, // C5 - 523 Hz maximum for microstep setting 1
+            84, // C6 - 1047 Hz maximum for microstep setting 2
+            96, // C7 - 2093 Hz maximum for microstep setting 3
+            111, // No maximum for microstep setting 4
+            111  // No maximum for microstep setting 5
+        };
+
         void _fillBuffer(uint64_t buf)
         {
             _buffer = buf;
         }
 
     public:
+        uint8_t currentMicrostepSetting[8];
+        uint8_t finalMicrostepSetting[8];
+        uint64_t usTimeinMicrostepSetting[8];
+
+        // Time in microseconds before transitioning to new microstep setting
+        int32_t timePerMicrostepRamp[6] = {
+            -1,
+            -1,
+            50000,
+            100000,
+            200000,
+            400000
+        };
+
         Card(uint8_t cardNumber, uint8_t boardNumber) : 
             _cardNumber(cardNumber),
             _boardNumber(boardNumber)
@@ -168,6 +191,27 @@ class Card
             }
         }
 
+        uint8_t getMicrostepStart(uint8_t microStep, byte note)
+        {
+            for(int i=0; i<6; i++) if (_maxMidiNoteForMicrostep[i] >= note) return i;
+
+            !DEBUG ? true : Serial.println("getMicroStepStart: Note outside range, ignoring value");
+            return microStep;
+        }
+
+        uint8_t checkMicrostepRamp(uint8_t motorNum, uint8_t microStep, byte note)
+        {
+            if(note > _maxMidiNoteForMicrostep[microStep])
+            {
+                finalMicrostepSetting[motorNum-1] = microStep;
+                currentMicrostepSetting[motorNum-1] = getMicrostepStart(microStep, note);
+                usTimeinMicrostepSetting[motorNum-1] = micros();
+                microStep = currentMicrostepSetting[motorNum-1];
+            }
+
+            return microStep;
+        }
+
         void changeMicroStep(uint8_t motorNum, uint8_t microStep)
         {
             switch (microStep)
@@ -184,7 +228,7 @@ class Card
                     _buffer |= ((uint64_t)1 << (MS2Pins[motorNum-1]-1));
                 break;
                 case 4:
-                    _buffer &= ~((uint64_t)1 << (MS3Pins[motorNum]-1));
+                    _buffer &= ~((uint64_t)1 << (MS3Pins[motorNum-1]-1));
                     _buffer |= (((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS2Pins[motorNum-1]-1)));
                 break;
                 case 5:
@@ -200,7 +244,7 @@ class ControlBoard
     private:
         uint8_t _controlBoardNumber;
         uint8_t SRCLR, RCLK, OE;
-
+        
     public:
         Card Cards[4];
         Music_Serial_To_Slave Driver;
@@ -267,8 +311,12 @@ class ControlBoard
             } else {
                 Cards[cardNumber].disableMotor(motorNumber);
             }
+
+            uint8_t microstep = int(map(velocity, 0, 127, 5, 1));
+
+            microstep = Cards[cardNumber].checkMicrostepRamp(motorNumber, microstep, note);
             
-            Cards[cardNumber].changeMicroStep(motorNumber, int(map(velocity, 0, 127, 5, 1)));
+            Cards[cardNumber].changeMicroStep(motorNumber, microstep);
             Cards[cardNumber].writeRegister();
             resetLatch();
             Driver.sendSingleMotor(motorNumber+(cardNumber*8), (velocity ? true : false), frequency);//!temporary change
@@ -314,6 +362,30 @@ class ControlBoard
             latchRegisters();
             !DEBUG ? true : Serial.println("Register Reset");
         }
+
+        void handleMicrostepRamp(uint8_t cardNumber)
+        {
+            for(int i=0; i<8; i++)
+            {
+                if (Cards[cardNumber].finalMicrostepSetting[i] != Cards[cardNumber].currentMicrostepSetting[i])
+                {
+                    // Serial.println("Not Equal");
+                    // Serial.println(usTimeinMicrostepSetting[i]);
+                    // Serial.println(micros() - usTimeinMicrostepSetting[i]);
+                    // Serial.println(timePerMicrostepRamp[currentMicrostepSetting[i]]);
+                    if(micros() - Cards[cardNumber].usTimeinMicrostepSetting[i] >= Cards[cardNumber].timePerMicrostepRamp[Cards[cardNumber].currentMicrostepSetting[i]])
+                    {
+                        Serial.print(Cards[cardNumber].currentMicrostepSetting[i]);Serial.print(" changed to ");Serial.println(Cards[cardNumber].currentMicrostepSetting[i]-1);
+                        Cards[cardNumber].usTimeinMicrostepSetting[i] = micros();
+                        Cards[cardNumber].currentMicrostepSetting[i]--;
+                        Cards[cardNumber].changeMicroStep(i+1, Cards[cardNumber].currentMicrostepSetting[i]);
+
+                        Cards[cardNumber].writeRegister();
+                        resetLatch();
+                    }
+                }
+            }
+        }
 };
 
 ControlBoard BoardOne(1);
@@ -342,6 +414,15 @@ class MainControl
             // (gridToCard(x, y) == 1)
             // ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity)
             // :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity);
+        }
+
+        void handler()
+        {
+            // TODO add board one functionality
+            for(int i=0; i<4; i++)
+            {
+                BoardTwo.handleMicrostepRamp(i);
+            }
         }
 
         uint8_t gridToBoard(uint8_t x, uint8_t y)

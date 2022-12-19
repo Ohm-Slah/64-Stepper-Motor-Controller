@@ -45,6 +45,8 @@ void setup()
 void loop()
 {
     usbMIDI.read();
+
+    Control.handler();
     // Control.midiEvent(1, 53, 127);
     // delay(500);
     // Control.midiEvent(1, 53, 0);
