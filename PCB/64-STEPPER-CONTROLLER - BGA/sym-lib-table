@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name "usb")(type "KiCad")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/usb.kicad_sym")(options "")(descr ""))
+  (lib (name "Samtec")(type "KiCad")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/Samtec.kicad_sym")(options "")(descr ""))
+  (lib (name "TEENSY")(type "KiCad")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/teensy.kicad_sym")(options "")(descr ""))
+  (lib (name "STM32L471ZGJ6")(type "KiCad")(uri "C:/Users/34892/OneDrive - Samtec/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES/STM32L471ZGJ6.kicad_sym")(options "")(descr ""))
+)

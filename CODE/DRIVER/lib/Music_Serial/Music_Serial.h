@@ -127,7 +127,7 @@ class Music_Serial
             //     _readLine[i] = Serial2.read();
             //     i++;
             // }
-            uint8_t recieveBytes = Serial2.readBytesUntil('\n', _readLine, 100);
+            uint8_t recieveBytes = Serial2.readBytesUntil(0x7F, _readLine, 100);
             masterRead = 0;
             
             for(uint8_t i=0; i < recieveBytes; i++)

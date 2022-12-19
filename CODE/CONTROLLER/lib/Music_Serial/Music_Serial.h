@@ -176,12 +176,12 @@ class Music_Serial_To_Slave
             {
                 case 1:
                     Serial7.write(toSend, sizeof(toSend));
-                    Serial7.write('\n');
+                    Serial7.write(0x7F);
                 break;
 
                 case 2:
                     Serial8.write(toSend, sizeof(toSend));
-                    Serial8.write('\n');
+                    Serial8.write(0x7F);
                 break;
             }
         }
@@ -198,7 +198,7 @@ class Music_Serial_To_Slave
                                 (uint64_t)frequencyEnd << FREQUENCYEND |
                                 (uint64_t)microstepStart << MICROSTEPSTART |
                                 (uint64_t)microstepEnd << MICROSTEPEND |
-                                (uint64_t)noteSustain << noteSustain;
+                                (uint64_t)noteSustain << NOTESUSTAINED;
 
             Serial.println(toSend, BIN);
             Serial.print(state);Serial.print(" : ");Serial.print(STATECHANGE);Serial.print(" : ");Serial.println(state << STATECHANGE);
@@ -212,7 +212,7 @@ class Music_Serial_To_Slave
             Serial.println();
             send(cstr);
 
-            changeBoxColor(motorNumber, 1, (makeColor(motorNumber*45, 100, 50)) * state);
+            changeBoxColor(((motorNumber-1)%8)+1, motorNumber > 8 ? 2 : 1, (makeColor(motorNumber*45, 100, 50)) * state); //!temporary change
         }
 
 };
