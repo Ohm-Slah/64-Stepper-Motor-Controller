@@ -15,19 +15,6 @@
 
 #define DEBUG 1
 
-//  *Constants for calculation and balancing. Do not touch unless you know what you're doing.*    //
-//  *----------------------------------------------------------------------------------------*    //
-// ? Do velocity, acceleration, and jerk calculations? Hard code accel steps instead?
-// TODO Try dynamic linear accel and a 'fake smoothed' accel
-#define MAXMOTORSPEEDRPS 0
-#define MAXMOTORACCRPS2 0
-#define MAXMOTORJERKRPS3 0
-
-//  *^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*    //
-
-#define ON 1
-#define OFF 0
-
 int8_t pinArray[] = {
   A1STEP1, A2STEP1, A3STEP1, A4STEP1, A5STEP1, A6STEP1, A7STEP1, A8STEP1, 
   A1STEP2, A2STEP2, A3STEP2, A4STEP2, A5STEP2, A6STEP2, A7STEP2, A8STEP2, 
@@ -80,18 +67,8 @@ class Motor
 
         void singleStep()
         {
-            // if(_motorNumber == 2)
-            // {
-            //     // Serial.println(micros() - _previousDelayms);
-            //     // Serial.println(_moveTimems);
-            //     // Serial.println(_totalTimems);
-            //     // Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
-            //     // Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
-            // }
-            
             if((micros() - _previousDelayms >= _moveTimems) && (_totalTimems != 0))
             {
-                //Serial.println("STEP");
                 _previousDelayms += getNewTimems();
                 digitalWrite(_stepPin, HIGH);
                 delayMicroseconds(1);
@@ -112,15 +89,15 @@ class Motor
                 _moveTimems = pulseWait;
                 _previousDelayms = micros();
             }
-            // Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
-            // Serial.print("pulseWait : ");Serial.println(pulseWait);
-            // Serial.print("state : ");Serial.println(state);
-            // Serial.print("micros : ");Serial.println(micros());
-            // Serial.print("_previousDelayms : ");Serial.println(_previousDelayms);
-            // Serial.print("_moveTimems : ");Serial.println(_moveTimems);
-            // Serial.print("_totalTimems : ");Serial.println(_totalTimems);
-            // Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
-            // Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
+            !DEBUG ? true : Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
+            !DEBUG ? true : Serial.print("pulseWait : ");Serial.println(pulseWait);
+            !DEBUG ? true : Serial.print("state : ");Serial.println(state);
+            !DEBUG ? true : Serial.print("micros : ");Serial.println(micros());
+            !DEBUG ? true : Serial.print("_previousDelayms : ");Serial.println(_previousDelayms);
+            !DEBUG ? true : Serial.print("_moveTimems : ");Serial.println(_moveTimems);
+            !DEBUG ? true : Serial.print("_totalTimems : ");Serial.println(_totalTimems);
+            !DEBUG ? true : Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
+            !DEBUG ? true : Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
         }
 
     private:

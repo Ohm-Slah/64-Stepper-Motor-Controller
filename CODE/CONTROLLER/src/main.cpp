@@ -17,22 +17,19 @@ MainControl Control(1);
 
 void OnNoteOff(byte channel, byte note, byte velocity)
 {
-    Serial.print("channel On: ");Serial.println(channel);
+    !DEBUG ? true : Serial.print("channel On: ");Serial.println(channel);
     Control.midiEvent(channel, note, velocity);
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity)
 {
-    Serial.print("channel Off: ");Serial.println(channel);
+    !DEBUG ? true : Serial.print("channel Off: ");Serial.println(channel);
     Control.midiEvent(channel, note, velocity);
 }
 
 void setup()
 {
     Serial.begin(115200);
-
-    // BoardOne.Driver.serialInit();
-    // BoardTwo.Driver.serialInit();
 
     usbMIDI.setHandleNoteOff(OnNoteOff);
     usbMIDI.setHandleNoteOn(OnNoteOn);
@@ -45,18 +42,5 @@ void setup()
 void loop()
 {
     usbMIDI.read();
-
     Control.handler();
-    // Control.midiEvent(1, 53, 127);
-    // delay(500);
-    // Control.midiEvent(1, 53, 0);
-    // delay(500);
-    // Control.midiEvent(1, 52, 127);
-    // delay(500);
-    // Control.midiEvent(1, 52, 0);
-    // delay(500);
-    // Control.midiEvent(1, 51, 127);
-    // delay(500);
-    // Control.midiEvent(1, 51, 0);
-    // delay(500);
 }

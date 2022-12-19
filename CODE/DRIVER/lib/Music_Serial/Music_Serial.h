@@ -19,7 +19,9 @@
 #define MICROSTEPEND    26  // 3
 #define TIMEINMS        10  // 16
 #define NOTESUSTAINED   9   // 1
+//*^^^^^^^^^^^^^^^^^^^^^^^^^*//
 
+//* Create instance of motor class for each motor *//
 Motor Motor1(A1STEP1, 1);
 Motor Motor2(A2STEP1, 2);
 Motor Motor3(A3STEP1, 3);
@@ -55,6 +57,7 @@ Motor Motor29(A5STEP4, 29);
 Motor Motor30(A6STEP4, 30);
 Motor Motor31(A7STEP4, 31);
 Motor Motor32(A8STEP4, 32);
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*//
 
 Motor AllMotors[32] = {	
 	Motor1, Motor2,  Motor3,  Motor4,  Motor5,  Motor6,  Motor7,  Motor8, 
@@ -77,19 +80,19 @@ class Music_Serial
 
         void serialInit()
         {
-            Serial.println("initializing serial with slave...");
+            !DEBUG ? true : Serial.println("initializing serial with slave...");
             // Make sure confirm master is present
             while(!available());
             read();
             
             if(_readLine[0] == 'I') 
             {
-                Serial.println("Serial communications confirmed.");
+                !DEBUG ? true : Serial.println("Serial communications confirmed.");
                 send("I\n");
             } else {
-                Serial.print("ERROR with serial comms: ");
-                Serial.println(_readLine);
-                Serial.println(sizeof(_readLine));
+                !DEBUG ? true : Serial.print("ERROR with serial comms: ");
+                !DEBUG ? true : Serial.println(_readLine);
+                !DEBUG ? true : Serial.println(sizeof(_readLine));
             }
 
             pinMode(13, OUTPUT);
@@ -109,24 +112,11 @@ class Music_Serial
 
         void send(char toSend[])
         {
-            // for(uint8_t i=0; i<sizeof(toSend); i++)
-            // {
-            //     Serial2.write(toSend[i]);
-            // }
-            // Serial2.write('\n');
             Serial2.write(toSend, sizeof(toSend));
         }
 
         void read()
         {
-            // uint8_t i = 0;
-            // for(; i< 100; i++) _readLine[i] = 0;
-            // i = 0;
-            // while(available())
-            // {
-            //     _readLine[i] = Serial2.read();
-            //     i++;
-            // }
             uint8_t recieveBytes = Serial2.readBytesUntil(0x7F, _readLine, 100);
             masterRead = 0;
             
@@ -135,7 +125,7 @@ class Music_Serial
                 Serial.print(_readLine[i], BIN);Serial.print(" ");
                 masterRead |= (uint64_t)_readLine[i] << 8*(7-i);
             }
-            Serial.println(masterRead, BIN);
+            !DEBUG ? true : Serial.println(masterRead, BIN);
         }
 
         void setMasterCommand()
@@ -155,15 +145,15 @@ class Music_Serial
             microstepEnd = masterRead >> MICROSTEPEND & 0B111;
             timems = masterRead >> TIMEINMS & 0B1111111111111111;
             noteSustain = masterRead >> NOTESUSTAINED & 0B1;
-            Serial.print("motorNumber : ");Serial.println(motorNumber);
-            Serial.print("command : ");Serial.println(command);
-            Serial.print("frequencyStart : ");Serial.println(frequencyStart);
-            Serial.print("frequencyEnd : ");Serial.println(frequencyEnd);
-            Serial.print("microstepStart : ");Serial.println(microstepStart);
-            Serial.print("microstepEnd : ");Serial.println(microstepEnd);
-            Serial.print("timems : ");Serial.println(timems);
-            Serial.print("noteSustain : ");Serial.println(noteSustain);
-            Serial.print("state : ");Serial.println(state);
+            !DEBUG ? true : Serial.print("motorNumber : ");Serial.println(motorNumber);
+            !DEBUG ? true : Serial.print("command : ");Serial.println(command);
+            !DEBUG ? true : Serial.print("frequencyStart : ");Serial.println(frequencyStart);
+            !DEBUG ? true : Serial.print("frequencyEnd : ");Serial.println(frequencyEnd);
+            !DEBUG ? true : Serial.print("microstepStart : ");Serial.println(microstepStart);
+            !DEBUG ? true : Serial.print("microstepEnd : ");Serial.println(microstepEnd);
+            !DEBUG ? true : Serial.print("timems : ");Serial.println(timems);
+            !DEBUG ? true : Serial.print("noteSustain : ");Serial.println(noteSustain);
+            !DEBUG ? true : Serial.print("state : ");Serial.println(state);
 
             AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, timems, noteSustain);
         }

@@ -300,10 +300,10 @@ class ControlBoard
         void midiEvent(byte cardNumber, byte motorNumber, byte note, byte velocity)
         {
             uint32_t frequency = 1000000/pitchVals[note];
-            Serial.println(cardNumber);
-            Serial.println(motorNumber);
-            Serial.println(note);
-            Serial.println(frequency);
+            !DEBUG ? true : Serial.println(cardNumber);
+            !DEBUG ? true : Serial.println(motorNumber);
+            !DEBUG ? true : Serial.println(note);
+            !DEBUG ? true : Serial.println(frequency);
 
             if (velocity > 0)
             {
@@ -369,13 +369,9 @@ class ControlBoard
             {
                 if (Cards[cardNumber].finalMicrostepSetting[i] != Cards[cardNumber].currentMicrostepSetting[i])
                 {
-                    // Serial.println("Not Equal");
-                    // Serial.println(usTimeinMicrostepSetting[i]);
-                    // Serial.println(micros() - usTimeinMicrostepSetting[i]);
-                    // Serial.println(timePerMicrostepRamp[currentMicrostepSetting[i]]);
                     if(micros() - Cards[cardNumber].usTimeinMicrostepSetting[i] >= Cards[cardNumber].timePerMicrostepRamp[Cards[cardNumber].currentMicrostepSetting[i]])
                     {
-                        Serial.print(Cards[cardNumber].currentMicrostepSetting[i]);Serial.print(" changed to ");Serial.println(Cards[cardNumber].currentMicrostepSetting[i]-1);
+                        !DEBUG ? true : Serial.print(Cards[cardNumber].currentMicrostepSetting[i]);Serial.print(" changed to ");Serial.println(Cards[cardNumber].currentMicrostepSetting[i]-1);
                         Cards[cardNumber].usTimeinMicrostepSetting[i] = micros();
                         Cards[cardNumber].currentMicrostepSetting[i]--;
                         Cards[cardNumber].changeMicroStep(i+1, Cards[cardNumber].currentMicrostepSetting[i]);
@@ -407,8 +403,8 @@ class MainControl
             uint8_t y = channel > 8 ? 1 : 0;
 
             //! temporary
-            Serial.print("Card: ");Serial.println(channel > 8 ? 1 : 0);
-            Serial.print("Motor on Card: ");Serial.println(((channel-1)%8)+1);
+            !DEBUG ? true : Serial.print("Card: ");Serial.println(channel > 8 ? 1 : 0);
+            !DEBUG ? true : Serial.print("Motor on Card: ");Serial.println(((channel-1)%8)+1);
             BoardTwo.midiEvent(channel > 8 ? 1 : 0,((channel-1)%8)+1, note, velocity);
 
             // (gridToCard(x, y) == 1)

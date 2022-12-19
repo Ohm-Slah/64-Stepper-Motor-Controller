@@ -57,6 +57,10 @@
 
 #define CONFIRM 'C'
 
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
 #define STATECHANGE     63  // 1
 #define COMMAND         61  // 2
 #define MOTORNUMBER     56  // 5
@@ -67,35 +71,23 @@
 #define TIMEINMS        10  // 16
 #define NOTESUSTAINED   9   // 1
 
-class Music_Serial_From_Computer
-{
-    private:
-
-    public:
-        Music_Serial_From_Computer()
-        {
-
-        }
-
-        
-
-        void serialInit()
-        {
-            
-        }
-
-        void send(char toSend[])
-        {
-
-        }
-
-        void read()
-        {
-
-        }
-
-        
-};
+// class Music_Serial_From_Computer
+// {
+//     private:
+//     public:
+//         Music_Serial_From_Computer()
+//         {
+//         }
+//         void serialInit()
+//         {
+//         }
+//         void send(char toSend[])
+//         {
+//         }
+//         void read()
+//         {
+//         }
+// };
 
 class Music_Serial_To_Slave
 {
@@ -112,7 +104,7 @@ class Music_Serial_To_Slave
 
         void serialInit()
         {
-            Serial.println("initializing serial with slave...");
+            !DEBUG ? true : Serial.println("initializing serial with slave...");
             switch(_controlBoardNumber)
             {
                 case 1:
@@ -132,9 +124,9 @@ class Music_Serial_To_Slave
 
             if(_readLine[0] == 'I')
             {
-                Serial.println("Serial communications confirmed.");
+                !DEBUG ? true : Serial.println("Serial communications confirmed.");
             }else {
-                Serial.println("ERROR with serial comms");
+                !DEBUG ? true : Serial.println("ERROR with serial comms");
             }
 
             pinMode(13, OUTPUT);
@@ -165,7 +157,7 @@ class Music_Serial_To_Slave
                 Serial.flush();
 
                 if (readByte != CONFIRM)
-                    Serial.println("CONFIRM BYTE ERROR");
+                    !DEBUG ? true : Serial.println("CONFIRM BYTE ERROR");
             }
             
         }
@@ -200,16 +192,16 @@ class Music_Serial_To_Slave
                                 (uint64_t)microstepEnd << MICROSTEPEND |
                                 (uint64_t)noteSustain << NOTESUSTAINED;
 
-            Serial.println(toSend, BIN);
-            Serial.print(state);Serial.print(" : ");Serial.print(STATECHANGE);Serial.print(" : ");Serial.println(state << STATECHANGE);
+            !DEBUG ? true : Serial.println(toSend, BIN);
+            !DEBUG ? true : Serial.print(state);Serial.print(" : ");Serial.print(STATECHANGE);Serial.print(" : ");Serial.println(state << STATECHANGE);
 
             char cstr[8];
             for(int i=0; i < 8; i++)
             {
                 cstr[7-i] = (toSend >> (8*i)) & 0xFF;
-                Serial.print(cstr[i], BIN);Serial.print(" ");
+                !DEBUG ? true : Serial.print(cstr[i], BIN);Serial.print(" ");
             }
-            Serial.println();
+            !DEBUG ? true : Serial.println();
             send(cstr);
 
             changeBoxColor(((motorNumber-1)%8)+1, motorNumber > 8 ? 2 : 1, (makeColor(motorNumber*45, 100, 50)) * state); //!temporary change
