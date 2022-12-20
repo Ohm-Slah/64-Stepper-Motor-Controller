@@ -13,6 +13,7 @@ This design is an attempt to create a fairly modular assembly for 64 stepper mot
 <img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-15%20122505.png" alt="PCB design rev A" width="400"/><img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-15%20123018.png" alt="PCB 3D model rev A" width="400"/>
 
 ## 32 Stepper PCB Board
-<img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-15%20124324.png" alt="PCB 3D model rev A" width="400"/><img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-16%20101221.png" alt="PCB 3D model rev A" width="400"/>
+<img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-15%20124324.png" alt="PCB design rev A" width="400"/><img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-06-16%20101221.png" alt="PCB 3D model rev A" width="400"/>
 
 ## 64 Stepper PCB Board
+<img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Screenshot%202022-07-13%20144447.png" alt="PCB design rev A" width="400"/><img src="https://github.com/Ohm-Slah/64-Stepper-Motor-Controller/blob/main/DOCUMENTS/FOR%20README/Full_Assembly_2022-Jul-10_10-02-41PM-000_CustomizedView35886228982.png" alt="PCB 3D model rev A" width="400"/>
