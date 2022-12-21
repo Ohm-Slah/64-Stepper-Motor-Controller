@@ -59,24 +59,6 @@
 #define NOTESUSTAINED   7   // 1
 #define SPECIALCOMMAND  0   // 7
 
-// class Music_Serial_From_Computer
-// {
-//     private:
-//     public:
-//         Music_Serial_From_Computer()
-//         {
-//         }
-//         void serialInit()
-//         {
-//         }
-//         void send(char toSend[])
-//         {
-//         }
-//         void read()
-//         {
-//         }
-// };
-
 class Music_Serial_To_Slave
 {
     private:

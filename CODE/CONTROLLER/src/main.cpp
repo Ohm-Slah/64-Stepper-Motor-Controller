@@ -42,5 +42,4 @@ void setup()
 void loop()
 {
     usbMIDI.read();
-    Control.handler();
 }
