@@ -26,7 +26,7 @@ class Motor
 {
 // Class to create individual motor objects to control. All things stepping is controlled here.
     public:
-        uint16_t pulseWait;
+        uint16_t pulseWait[4];
 
         Motor(uint8_t stepPin, uint8_t motorNumber)
         {
@@ -54,61 +54,69 @@ class Motor
             }
         }
 
-        uint16_t getNewTimems()
+        uint16_t getNewTimems(uint8_t motorNumber)
         {
-
-            if((_glissandoMoveTime != 0) && (micros() - _msLastFrequencyChange >= _msPerFrequency))
-            {
-                _moveTimems += 0;
-            }
-
-            return _moveTimems;
+            // if((_glissandoMoveTime != 0) && (micros() - _msLastFrequencyChange >= _msPerFrequency[motorNumber]))
+            // {
+            //     _moveTimems[motorNumber] += 0;
+            // }
+            return _moveTimems[motorNumber];
         }
 
         void singleStep()
         {
-            if((micros() - _previousDelayms >= _moveTimems) && (_totalTimems != 0))
+            for(int i=0; i<4; i++)
             {
-                _previousDelayms += getNewTimems();
-                digitalWrite(_stepPin, HIGH);
-                delayMicroseconds(1);
-                digitalWrite(_stepPin, LOW);
+                if(pulseWait[i] == 0) continue;
+
+                if((micros() - _previousDelayms[i] >= _moveTimems[i]) && (_totalTimems[4] != 0))
+                {
+                    _previousDelayms[i] += getNewTimems(i);
+                    pulse();
+                }
             }
         }
 
-        void motorMove(uint8_t state, uint16_t startFreq, uint16_t endFreq, uint16_t timems, uint8_t sustain)
-        {
+        void motorMove(uint8_t state, uint16_t startFreq, uint16_t endFreq, uint8_t noteNumber, uint16_t timems, uint8_t sustain)
+        {   
             if(!state) 
             {
-                _totalTimems = 0;
+                _totalTimems[noteNumber] = 0;
             } else {
-                _totalTimems = 1;
-                _msPerFrequency = timems / abs(startFreq-endFreq);
-                _totalMovePulses = startFreq * timems;
-                pulseWait = (uint16_t) (1.0/startFreq * 1000000);
-                _moveTimems = pulseWait;
-                _previousDelayms = micros();
+                if(noteNumber >= 4) 
+                {
+                    !DEBUG ? true : Serial.print("\nMotor ");
+                    !DEBUG ? true : Serial.print(_motorNumber);
+                    !DEBUG ? true : Serial.println(" noteNumber above allowed number of notes, ignoring.");
+                }
+
+                _totalTimems[noteNumber] = 1;
+                _msPerFrequency[noteNumber] = timems / abs(startFreq-endFreq);
+                _totalMovePulses[noteNumber] = startFreq * timems;
+                pulseWait[noteNumber] = (uint16_t) (1.0/startFreq * 1000000);
+                _moveTimems[noteNumber] = pulseWait[noteNumber];
+                _previousDelayms[noteNumber] = micros();
             }
-            !DEBUG ? true : Serial.print("\nmotorNum : ");Serial.println(_motorNumber);
-            !DEBUG ? true : Serial.print("pulseWait : ");Serial.println(pulseWait);
-            !DEBUG ? true : Serial.print("state : ");Serial.println(state);
-            !DEBUG ? true : Serial.print("micros : ");Serial.println(micros());
-            !DEBUG ? true : Serial.print("_previousDelayms : ");Serial.println(_previousDelayms);
-            !DEBUG ? true : Serial.print("_moveTimems : ");Serial.println(_moveTimems);
-            !DEBUG ? true : Serial.print("_totalTimems : ");Serial.println(_totalTimems);
-            !DEBUG ? true : Serial.print("First conditional : ");Serial.println(micros() - _previousDelayms >= _moveTimems);
-            !DEBUG ? true : Serial.print("Secon conditional : ");Serial.println(_totalTimems != 0);
+            !DEBUG ? true : Serial.print("\nmotorNum : ");!DEBUG ? true : Serial.println(_motorNumber);
+            !DEBUG ? true : Serial.print("pulseWait : ");!DEBUG ? true : Serial.println(pulseWait[noteNumber]);
+            !DEBUG ? true : Serial.print("state : ");!DEBUG ? true : Serial.println(state);
+            !DEBUG ? true : Serial.print("micros : ");!DEBUG ? true : Serial.println(micros());
+            !DEBUG ? true : Serial.print("_previousDelayms : ");!DEBUG ? true : Serial.println(_previousDelayms[noteNumber]);
+            !DEBUG ? true : Serial.print("_moveTimems : ");!DEBUG ? true : Serial.println(_moveTimems[noteNumber]);
+            !DEBUG ? true : Serial.print("_totalTimems : ");!DEBUG ? true : Serial.println(_totalTimems[noteNumber]);
+            !DEBUG ? true : Serial.print("First conditional : ");!DEBUG ? true : Serial.println(micros() - _previousDelayms[noteNumber] >= _moveTimems[noteNumber]);
+            !DEBUG ? true : Serial.print("Second conditional : ");!DEBUG ? true : Serial.println(_totalTimems[noteNumber] != 0);
         }
 
     private:
         uint8_t _stepPin, _motorNumber;
         uint16_t _glissandoMoveTime;
-        uint16_t _moveTimems, _msPerFrequency;
+        uint16_t _moveTimems[4], _msPerFrequency[4];
         uint32_t _msLastFrequencyChange;
-        uint16_t _totalTimems;
+        uint16_t _totalTimems[4];
         uint16_t _currentTimems;
-        uint32_t _totalMovePulses;
-        uint64_t _previousDelayms;
+        uint32_t _totalMovePulses[4];
+        uint64_t _previousDelayms[4];
 };
 
 #endif // STEPPER_MUSIC_H
