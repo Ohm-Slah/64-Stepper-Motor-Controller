@@ -181,7 +181,8 @@ class Music_Serial_To_Slave
             !DEBUG ? true : Serial.println();
             send(cstr);
 
-            changeBoxColor(((motorNumber-1)%8)+1, motorNumber > 8 ? 2 : 1, (makeColor(motorNumber*45, 100, 50)) * state); //!temporary change
+            //changeBoxColor(((motorNumber-1)%8)+1, motorNumber > 8 ? 2 : 1, (makeColor(motorNumber*45, 100, 50)) * state); //!temporary change
+            changeBoxPixelColor(((motorNumber-1)%8)+1, motorNumber > 8 ? 2 : 1, noteNumber, (makeColor(motorNumber*45, 100, 50)) * state); //!temporary change
         }
 
 };
