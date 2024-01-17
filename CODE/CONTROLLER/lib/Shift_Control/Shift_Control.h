@@ -287,6 +287,41 @@ class ControlBoard
             Serial.print("OE Pin: ");Serial.println(OE);
         }
 
+        void clearAllNotes()
+        {
+            // void sendSingleMotor(uint8_t motorNumber, uint8_t state, uint8_t noteNumber,
+            //                 uint16_t frequencyStart, uint16_t frequencyEnd=0, 
+            //                 uint8_t microstepStart=0, uint8_t microstepEnd=0,
+            //                 uint16_t timems=0, uint8_t noteSustain=0, uint8_t specialCommand=0)
+            // for(int card=0; card<4; card++)
+            // {
+            //     for(int motor=0; motor<8; motor++)
+            //     {
+            //         for(int note=0; note<4; note++)
+            //         {
+            //             Driver.sendSingleMotor(motor+(card*8), false, note, 0, 0, 0, 0, 0, 0, 0);
+            //         }
+            //     }
+            //     Cards[card].disableAllMotors();
+            // }
+
+            Driver.clearAllNotes();
+
+            for(int card=0; card<4; card++)
+            {
+                for(int motor=1; motor<9; motor++)
+                {
+                    for(int note=0; note<4; note++)
+                    {
+                        Cards[card].motorState[motor-1][note] = 0;
+                    }
+                }
+                Cards[card].disableAllMotors();
+                Cards[card].writeRegister();
+            }
+            resetLatch();
+        }
+
         void midiEvent(byte cardNumber, byte motorNumber, byte note, byte velocity)
         {
             uint32_t frequency = 1000000/pitchVals[note];
@@ -299,24 +334,34 @@ class ControlBoard
 
             if (velocity > 0)
             {
+                !DEBUG ? true : Serial.println();
                 for(; noteNumber<4; noteNumber++)
                 {
-                    if (Cards[cardNumber].motorState[motorNumber][noteNumber] == note)
+                    if (Cards[cardNumber].motorState[motorNumber-1][noteNumber] == 0)
                     {
-                        Cards[cardNumber].motorState[motorNumber][noteNumber] = 0;
-                        Cards[cardNumber].disableMotor(motorNumber);
+                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = note;
+                        Cards[cardNumber].enableMotor(motorNumber);
                         break;
                     }
                 }
             } else {
                 for(;noteNumber < 4; noteNumber++)
                 {
-                    if (Cards[cardNumber].motorState[motorNumber][noteNumber] == 0)
+                    if(Cards[cardNumber].motorState[motorNumber-1][noteNumber] == note)
                     {
-                        Cards[cardNumber].motorState[motorNumber][noteNumber] = note;
-                        Cards[cardNumber].disableMotor(motorNumber);
+                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = 0;
+                        // Cards[cardNumber].disableMotor(motorNumber);
                         break;
                     }
+                }
+                if(
+                    Cards[cardNumber].motorState[motorNumber-1][0] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][1] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][2] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][3] == 0
+                )
+                {
+                    Cards[cardNumber].disableMotor(motorNumber);
                 }
             }
             if (noteNumber >= 4) !DEBUG ? true : Serial.println("\nMotor at max capacity, ignoring.");
@@ -384,6 +429,20 @@ class MainControl
         {
             BoardOne.Driver.serialInit();
             BoardTwo.Driver.serialInit();
+        }
+
+        void controlEvent(uint8_t channel, uint8_t number, uint8_t value)
+        {
+            switch(number)
+            {
+                case 123:
+                    if((value > 0) && (channel == 1))   //? Used for MidiEditor commands, ensures it only runs once
+                    {
+                        Serial.println("CLEAR ALL NOTES");
+                        BoardTwo.clearAllNotes();
+                    }
+                break;
+            }
         }
 
         void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity)

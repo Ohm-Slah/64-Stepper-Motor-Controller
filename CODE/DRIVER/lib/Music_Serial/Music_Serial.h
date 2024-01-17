@@ -46,7 +46,7 @@
 #define STATECHANGE     63  // 1
 #define COMMAND         61  // 2
 #define MOTORNUMBER     56  // 5
-#define NOTENUMBER      44  // 2
+#define NOTENUMBER      54  // 2
 #define FREQUENCYSTART  42  // 12
 #define FREQUENCYEND    30  // 12
 #define MICROSTEPSTART  27  // 3
@@ -157,10 +157,21 @@ class Music_Serial
             
             for(uint8_t i=0; i < recieveBytes; i++)
             {
-                !DEBUG ? true : Serial.print(_readLine[i], BIN);!DEBUG ? true : Serial.print(" ");
+                //!DEBUG ? true : Serial.print(_readLine[i], BIN);!DEBUG ? true : Serial.print(" ");
                 masterRead |= (uint64_t)_readLine[i] << 8*(7-i);
             }
             !DEBUG ? true : Serial.println(masterRead, BIN);
+        }
+
+        void clearAllMotors()
+        {
+            for(int i=0; i < 32; i++)
+            {
+                for(int j=0; j < 4; j++)
+                {
+                    AllMotors[i].motorMove(false, 0, 0, j, 0, 0);
+                }
+            }
         }
 
         void setMasterCommand()
@@ -181,7 +192,7 @@ class Music_Serial
             microstepEnd = masterRead >> MICROSTEPEND & 0B111;
             timems = masterRead >> TIMEINMS & 0B1111111111111111;
             noteSustain = masterRead >> NOTESUSTAINED & 0B1;
-            specialCommand = masterRead >> SPECIALCOMMAND & 0B1111111;
+            //specialCommand = masterRead >> SPECIALCOMMAND & 0B1111111;
             
             !DEBUG ? true : Serial.print("motorNumber : ");!DEBUG ? true : Serial.println(motorNumber);
             !DEBUG ? true : Serial.print("command : ");!DEBUG ? true : Serial.println(command);
@@ -194,8 +205,12 @@ class Music_Serial
             !DEBUG ? true : Serial.print("timems : ");!DEBUG ? true : Serial.println(timems);
             !DEBUG ? true : Serial.print("noteSustain : ");!DEBUG ? true : Serial.println(noteSustain);
             
-
-            AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, noteNumber, timems, noteSustain);
+            if(!command)
+            {
+                clearAllMotors();
+            } else {
+                AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, noteNumber, timems, noteSustain);
+            }
         }
 };
 

@@ -27,12 +27,22 @@ void OnNoteOn(byte channel, byte note, byte velocity)
     Control.midiEvent(channel, note, velocity);
 }
 
+void OnControlChange(byte channel, byte number, byte value)
+{
+    Serial.println("--Control change--");
+    Serial.print("Channel: ");Serial.println(channel);
+    Serial.print("Number: ");Serial.println(number);
+    Serial.print("Value: ");Serial.println(value);
+    Control.controlEvent(channel, number, value);
+}
+
 void setup()
 {
     Serial.begin(115200);
 
     usbMIDI.setHandleNoteOff(OnNoteOff);
     usbMIDI.setHandleNoteOn(OnNoteOn);
+    usbMIDI.setHandleControlChange(OnControlChange);
 
     leds.begin();
     leds.show();
@@ -42,4 +52,16 @@ void setup()
 void loop()
 {
     usbMIDI.read();
+    // Control.midiEvent(1, 36, 100);
+    // delay(500);
+    // Control.midiEvent(1, 48, 100);
+    // delay(500);
+    // Control.midiEvent(1, 60, 100);
+    // delay(500);
+    // Control.midiEvent(1, 36, 0);
+    // delay(500);
+    // Control.midiEvent(1, 48, 0);
+    // delay(500);
+    // Control.midiEvent(1, 60, 0);
+    // delay(500);
 }

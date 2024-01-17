@@ -69,8 +69,9 @@ class Motor
             {
                 if(pulseWait[i] == 0) continue;
 
-                if((micros() - _previousDelayms[i] >= _moveTimems[i]) && (_totalTimems[4] != 0))
+                if((micros() - _previousDelayms[i] >= _moveTimems[i]) && (_totalTimems[i] != 0))
                 {
+                    //Serial.print("P");
                     _previousDelayms[i] += getNewTimems(i);
                     pulse();
                 }
@@ -82,6 +83,7 @@ class Motor
             if(!state) 
             {
                 _totalTimems[noteNumber] = 0;
+                pulseWait[noteNumber] = 0;
             } else {
                 if(noteNumber >= 4) 
                 {

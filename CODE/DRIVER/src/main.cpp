@@ -34,7 +34,7 @@ void loop() {
   	for(int i=0; i<32; i++)
   	{
 		// Wait the alloted time to replicate set frequency
-		if(AllMotors[i].pulseWait)
+		if(AllMotors[i].pulseWait[0] || AllMotors[i].pulseWait[1] || AllMotors[i].pulseWait[2] || AllMotors[i].pulseWait[3])
 		{
 			AllMotors[i].singleStep();
 		}

@@ -44,13 +44,13 @@
 #define CONFIRM 'C'
 
 #ifndef DEBUG
-#define DEBUG 0
+#define DEBUG 1
 #endif
 
 #define STATECHANGE     63  // 1
 #define COMMAND         61  // 2
 #define MOTORNUMBER     56  // 5
-#define NOTENUMBER      44  // 2
+#define NOTENUMBER      54  // 2
 #define FREQUENCYSTART  42  // 12
 #define FREQUENCYEND    30  // 12
 #define MICROSTEPSTART  27  // 3
@@ -145,6 +145,27 @@ class Music_Serial_To_Slave
                     Serial8.write(toSend, sizeof(toSend));
                     Serial8.write(0x7F);
                 break;
+            }
+        }
+
+        void clearAllNotes()
+        {
+            uint64_t toSend = 0;
+
+            char cstr[8];
+            for(int i=0; i < 8; i++)
+            {
+                cstr[7-i] = (toSend >> (8*i)) & 0xFF;
+                !DEBUG ? true : Serial.print(cstr[i], BIN);!DEBUG ? true : Serial.print(" ");
+            }
+            !DEBUG ? true : Serial.println();
+            send(cstr);
+            for(int i=1; i < 17; i++)
+            {
+                for(int j=0; j<4; j++)
+                {
+                    changeBoxPixelColor(((i-1)%8)+1, i > 8 ? 2 : 1, j, 0);
+                }
             }
         }
 
