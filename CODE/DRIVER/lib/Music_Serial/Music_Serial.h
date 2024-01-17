@@ -6,6 +6,39 @@
  * 
 */
 
+/*
+ * Old Serial Command Structure:
+ * (64-bit command)
+ * 12233333 - 44444444 - 44445555 - 55555555 - 66677788 - 88888888 - 8888889X - XXXXXXXX
+ * 1: STATECHANGE (Bool)    : On or Off
+ * 2: COMMAND (Switch Case) : 00:Off ~ 01:On ~ 10:Special   //? Not used, defaults to 01
+ * 3: MOTORNUMBER (Int)     : Range 0 - 31
+ * 4: FREQUENCYSTART (Int)  : Range 0 - 4095
+ * 5: FREQUENCYEND (Int)    : Range 0 - 4095                //? Not used
+ * 6: MICROSTEPSTART (Int)  : Range 0 - 7
+ * 7: MICROSTEPEND (Int)    : Range 0 - 7                   //? Not used
+ * 8: TIMEINMS (Int)        : Range 0 - 65535               //? Not used
+ * 9: NOTESUSTAINED (Bool)  : True of False                 //? Not used
+ * X: Not Used
+*/
+
+/*
+ * New Serial Command Structure:
+ * (64-bit command)
+ * 01122222 - 33444444 - 44444455 - 55555555 - 55666777 - 88888888 - 88888888 - 9AAAAAAA
+ * 0: STATECHANGE (Bool)    : On or Off
+ * 1: COMMAND (Switch Case) : 00:Off ~ 01:On ~ 10:Special   //? Not used, defaults to 01
+ * 2: MOTORNUMBER (Int)     : Range 0 - 31
+ * 3: NOTENUMBER (Int)      : Range 0- 3
+ * 4: FREQUENCYSTART (Int)  : Range 0 - 4095
+ * 5: FREQUENCYEND (Int)    : Range 0 - 4095                //? Not used
+ * 6: MICROSTEPSTART (Int)  : Range 0 - 7
+ * 7: MICROSTEPEND (Int)    : Range 0 - 7                   //? Not used
+ * 8: TIMEINMS (Int)        : Range 0 - 65535               //? Not used
+ * 9: NOTESUSTAINED (Bool)  : True of False                 //? Not used
+ * A: SPECIALCOMMAND (Int)  : TBD                           //? Not Used
+*/
+
 #ifndef MUSIC_SERIAL_H
 #define MUSIC_SERIAL_H
 
@@ -13,13 +46,17 @@
 #define STATECHANGE     63  // 1
 #define COMMAND         61  // 2
 #define MOTORNUMBER     56  // 5
-#define FREQUENCYSTART  44  // 12
-#define FREQUENCYEND    32  // 12
-#define MICROSTEPSTART  29  // 3
-#define MICROSTEPEND    26  // 3
-#define TIMEINMS        10  // 16
-#define NOTESUSTAINED   9   // 1
+#define NOTENUMBER      54  // 2
+#define FREQUENCYSTART  42  // 12
+#define FREQUENCYEND    30  // 12
+#define MICROSTEPSTART  27  // 3
+#define MICROSTEPEND    24  // 3
+#define TIMEINMS        8  // 16
+#define NOTESUSTAINED   7   // 1
+#define SPECIALCOMMAND  0   // 7
+//*^^^^^^^^^^^^^^^^^^^^^^^^^*//
 
+//* Create instance of motor class for each motor *//
 Motor Motor1(A1STEP1, 1);
 Motor Motor2(A2STEP1, 2);
 Motor Motor3(A3STEP1, 3);
@@ -55,6 +92,7 @@ Motor Motor29(A5STEP4, 29);
 Motor Motor30(A6STEP4, 30);
 Motor Motor31(A7STEP4, 31);
 Motor Motor32(A8STEP4, 32);
+//*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*//
 
 Motor AllMotors[32] = {	
 	Motor1, Motor2,  Motor3,  Motor4,  Motor5,  Motor6,  Motor7,  Motor8, 
@@ -77,19 +115,19 @@ class Music_Serial
 
         void serialInit()
         {
-            Serial.println("initializing serial with slave...");
+            !DEBUG ? true : Serial.println("initializing serial with slave...");
             // Make sure confirm master is present
             while(!available());
             read();
             
             if(_readLine[0] == 'I') 
             {
-                Serial.println("Serial communications confirmed.");
+                !DEBUG ? true : Serial.println("Serial communications confirmed.");
                 send("I\n");
             } else {
-                Serial.print("ERROR with serial comms: ");
-                Serial.println(_readLine);
-                Serial.println(sizeof(_readLine));
+                !DEBUG ? true : Serial.print("ERROR with serial comms: ");
+                !DEBUG ? true : Serial.println(_readLine);
+                !DEBUG ? true : Serial.println(sizeof(_readLine));
             }
 
             pinMode(13, OUTPUT);
@@ -109,63 +147,70 @@ class Music_Serial
 
         void send(char toSend[])
         {
-            // for(uint8_t i=0; i<sizeof(toSend); i++)
-            // {
-            //     Serial2.write(toSend[i]);
-            // }
-            // Serial2.write('\n');
             Serial2.write(toSend, sizeof(toSend));
         }
 
         void read()
         {
-            // uint8_t i = 0;
-            // for(; i< 100; i++) _readLine[i] = 0;
-            // i = 0;
-            // while(available())
-            // {
-            //     _readLine[i] = Serial2.read();
-            //     i++;
-            // }
             uint8_t recieveBytes = Serial2.readBytesUntil(0x7F, _readLine, 100);
             masterRead = 0;
             
             for(uint8_t i=0; i < recieveBytes; i++)
             {
-                Serial.print(_readLine[i], BIN);Serial.print(" ");
+                //!DEBUG ? true : Serial.print(_readLine[i], BIN);!DEBUG ? true : Serial.print(" ");
                 masterRead |= (uint64_t)_readLine[i] << 8*(7-i);
             }
-            Serial.println(masterRead, BIN);
+            !DEBUG ? true : Serial.println(masterRead, BIN);
+        }
+
+        void clearAllMotors()
+        {
+            for(int i=0; i < 32; i++)
+            {
+                for(int j=0; j < 4; j++)
+                {
+                    AllMotors[i].motorMove(false, 0, 0, j, 0, 0);
+                }
+            }
         }
 
         void setMasterCommand()
         {
-            uint8_t motorNumber, state, command;
+            uint8_t motorNumber, state, command, noteNumber;
             uint16_t frequencyStart, frequencyEnd; 
             uint8_t microstepStart, microstepEnd;
             uint16_t timems;
-            uint8_t noteSustain;
+            uint8_t noteSustain, specialCommand;
 
             motorNumber = masterRead >> MOTORNUMBER & 0B11111;
             command = masterRead >> COMMAND & 0B11;
             state = masterRead >> STATECHANGE & 0B1;
+            noteNumber = masterRead >> NOTENUMBER & 0B11;
             frequencyStart = masterRead >> FREQUENCYSTART & 0B111111111111;
             frequencyEnd = masterRead >> FREQUENCYEND & 0B111111111111;
             microstepStart = masterRead >> MICROSTEPSTART & 0B111;
             microstepEnd = masterRead >> MICROSTEPEND & 0B111;
             timems = masterRead >> TIMEINMS & 0B1111111111111111;
             noteSustain = masterRead >> NOTESUSTAINED & 0B1;
-            Serial.print("motorNumber : ");Serial.println(motorNumber);
-            Serial.print("command : ");Serial.println(command);
-            Serial.print("frequencyStart : ");Serial.println(frequencyStart);
-            Serial.print("frequencyEnd : ");Serial.println(frequencyEnd);
-            Serial.print("microstepStart : ");Serial.println(microstepStart);
-            Serial.print("microstepEnd : ");Serial.println(microstepEnd);
-            Serial.print("timems : ");Serial.println(timems);
-            Serial.print("noteSustain : ");Serial.println(noteSustain);
-            Serial.print("state : ");Serial.println(state);
-
-            AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, timems, noteSustain);
+            //specialCommand = masterRead >> SPECIALCOMMAND & 0B1111111;
+            
+            !DEBUG ? true : Serial.print("motorNumber : ");!DEBUG ? true : Serial.println(motorNumber);
+            !DEBUG ? true : Serial.print("command : ");!DEBUG ? true : Serial.println(command);
+            !DEBUG ? true : Serial.print("state : ");!DEBUG ? true : Serial.println(state);
+            !DEBUG ? true : Serial.print("noteNumber : ");!DEBUG ? true : Serial.println(noteNumber);
+            !DEBUG ? true : Serial.print("frequencyStart : ");!DEBUG ? true : Serial.println(frequencyStart);
+            !DEBUG ? true : Serial.print("frequencyEnd : ");!DEBUG ? true : Serial.println(frequencyEnd);
+            !DEBUG ? true : Serial.print("microstepStart : ");!DEBUG ? true : Serial.println(microstepStart);
+            !DEBUG ? true : Serial.print("microstepEnd : ");!DEBUG ? true : Serial.println(microstepEnd);
+            !DEBUG ? true : Serial.print("timems : ");!DEBUG ? true : Serial.println(timems);
+            !DEBUG ? true : Serial.print("noteSustain : ");!DEBUG ? true : Serial.println(noteSustain);
+            
+            if(!command)
+            {
+                clearAllMotors();
+            } else {
+                AllMotors[motorNumber-1].motorMove(state, frequencyStart, frequencyEnd, noteNumber, timems, noteSustain);
+            }
         }
 };
 

@@ -20,12 +20,36 @@ class Card
         uint8_t _boardNumber;
         uint64_t _buffer = 0;
 
+        int8_t _maxMidiNoteForMicrostep[6] = {
+            -1, // No zero setting for microstepping
+            73, // C5 - 523 Hz maximum for microstep setting 1
+            84, // C6 - 1047 Hz maximum for microstep setting 2
+            96, // C7 - 2093 Hz maximum for microstep setting 3
+            111, // No maximum for microstep setting 4
+            111  // No maximum for microstep setting 5
+        };
+
         void _fillBuffer(uint64_t buf)
         {
             _buffer = buf;
         }
 
     public:
+        uint8_t currentMicrostepSetting[8];
+        uint8_t finalMicrostepSetting[8];
+        uint64_t usTimeinMicrostepSetting[8];
+        uint8_t motorState[8][4];   // 8 motors/card, 4 notes/motor
+
+        // Time in microseconds before transitioning to new microstep setting
+        int32_t timePerMicrostepRamp[6] = {
+            -1,
+            -1,
+            50000,
+            100000,
+            200000,
+            400000
+        };
+
         Card(uint8_t cardNumber, uint8_t boardNumber) : 
             _cardNumber(cardNumber),
             _boardNumber(boardNumber)
@@ -168,6 +192,16 @@ class Card
             }
         }
 
+        uint8_t checkMicrostep(uint8_t microStep, byte note)
+        {
+            
+            for(; microStep < 6; microStep++)
+            {
+                if(note < _maxMidiNoteForMicrostep[microStep]) break;
+            }
+            return microStep;
+        }
+
         void changeMicroStep(uint8_t motorNum, uint8_t microStep)
         {
             switch (microStep)
@@ -184,7 +218,7 @@ class Card
                     _buffer |= ((uint64_t)1 << (MS2Pins[motorNum-1]-1));
                 break;
                 case 4:
-                    _buffer &= ~((uint64_t)1 << (MS3Pins[motorNum]-1));
+                    _buffer &= ~((uint64_t)1 << (MS3Pins[motorNum-1]-1));
                     _buffer |= (((uint64_t)1 << (MS1Pins[motorNum-1]-1)) | ((uint64_t)1 << (MS2Pins[motorNum-1]-1)));
                 break;
                 case 5:
@@ -200,7 +234,7 @@ class ControlBoard
     private:
         uint8_t _controlBoardNumber;
         uint8_t SRCLR, RCLK, OE;
-
+        
     public:
         Card Cards[4];
         Music_Serial_To_Slave Driver;
@@ -253,26 +287,94 @@ class ControlBoard
             Serial.print("OE Pin: ");Serial.println(OE);
         }
 
+        void clearAllNotes()
+        {
+            // void sendSingleMotor(uint8_t motorNumber, uint8_t state, uint8_t noteNumber,
+            //                 uint16_t frequencyStart, uint16_t frequencyEnd=0, 
+            //                 uint8_t microstepStart=0, uint8_t microstepEnd=0,
+            //                 uint16_t timems=0, uint8_t noteSustain=0, uint8_t specialCommand=0)
+            // for(int card=0; card<4; card++)
+            // {
+            //     for(int motor=0; motor<8; motor++)
+            //     {
+            //         for(int note=0; note<4; note++)
+            //         {
+            //             Driver.sendSingleMotor(motor+(card*8), false, note, 0, 0, 0, 0, 0, 0, 0);
+            //         }
+            //     }
+            //     Cards[card].disableAllMotors();
+            // }
+
+            Driver.clearAllNotes();
+
+            for(int card=0; card<4; card++)
+            {
+                for(int motor=1; motor<9; motor++)
+                {
+                    for(int note=0; note<4; note++)
+                    {
+                        Cards[card].motorState[motor-1][note] = 0;
+                    }
+                }
+                Cards[card].disableAllMotors();
+                Cards[card].writeRegister();
+            }
+            resetLatch();
+        }
+
         void midiEvent(byte cardNumber, byte motorNumber, byte note, byte velocity)
         {
             uint32_t frequency = 1000000/pitchVals[note];
-            Serial.println(cardNumber);
-            Serial.println(motorNumber);
-            Serial.println(note);
-            Serial.println(frequency);
+            !DEBUG ? true : Serial.println(cardNumber);
+            !DEBUG ? true : Serial.println(motorNumber);
+            !DEBUG ? true : Serial.println(note);
+            !DEBUG ? true : Serial.println(frequency);
+
+            uint8_t noteNumber = 0;
 
             if (velocity > 0)
             {
-                Cards[cardNumber].enableMotor(motorNumber);
+                !DEBUG ? true : Serial.println();
+                for(; noteNumber<4; noteNumber++)
+                {
+                    if (Cards[cardNumber].motorState[motorNumber-1][noteNumber] == 0)
+                    {
+                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = note;
+                        Cards[cardNumber].enableMotor(motorNumber);
+                        break;
+                    }
+                }
             } else {
-                Cards[cardNumber].disableMotor(motorNumber);
+                for(;noteNumber < 4; noteNumber++)
+                {
+                    if(Cards[cardNumber].motorState[motorNumber-1][noteNumber] == note)
+                    {
+                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = 0;
+                        // Cards[cardNumber].disableMotor(motorNumber);
+                        break;
+                    }
+                }
+                if(
+                    Cards[cardNumber].motorState[motorNumber-1][0] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][1] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][2] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber-1][3] == 0
+                )
+                {
+                    Cards[cardNumber].disableMotor(motorNumber);
+                }
             }
+            if (noteNumber >= 4) !DEBUG ? true : Serial.println("\nMotor at max capacity, ignoring.");
+
+            uint8_t microstep = int(map(velocity, 0, 127, 5, 1));
+
+            // limit microstepping setting to maximum an average motor can handle.
+            microstep = Cards[cardNumber].checkMicrostep(microstep, note);
             
-            Cards[cardNumber].changeMicroStep(motorNumber, int(map(velocity, 0, 127, 5, 1)));
+            Cards[cardNumber].changeMicroStep(motorNumber, microstep);
             Cards[cardNumber].writeRegister();
             resetLatch();
-            Driver.sendSingleMotor(motorNumber+(cardNumber*8), (velocity ? true : false), frequency);//!temporary change
-            
+            Driver.sendSingleMotor(motorNumber+(cardNumber*8), (velocity ? true : false), noteNumber, frequency);//!temporary change
         }
 
         void enableAllRegisters()
@@ -329,14 +431,30 @@ class MainControl
             BoardTwo.Driver.serialInit();
         }
 
+        void controlEvent(uint8_t channel, uint8_t number, uint8_t value)
+        {
+            switch(number)
+            {
+                case 123:
+                    if((value > 0) && (channel == 1))   //? Used for MidiEditor commands, ensures it only runs once
+                    {
+                        Serial.println("CLEAR ALL NOTES");
+                        BoardTwo.clearAllNotes();
+                    }
+                break;
+            }
+        }
+
         void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity)
         {
             uint8_t x = (channel-1) % 8;
             uint8_t y = channel > 8 ? 1 : 0;
 
             //! temporary
-            Serial.print("Card: ");Serial.println(channel > 8 ? 1 : 0);
-            Serial.print("Motor on Card: ");Serial.println(((channel-1)%8)+1);
+            !DEBUG ? true : Serial.print("Card: ");
+            !DEBUG ? true : Serial.println(channel > 8 ? 1 : 0);
+            !DEBUG ? true : Serial.print("Motor on Card: ");
+            !DEBUG ? true : Serial.println(((channel-1)%8)+1);
             BoardTwo.midiEvent(channel > 8 ? 1 : 0,((channel-1)%8)+1, note, velocity);
 
             // (gridToCard(x, y) == 1)

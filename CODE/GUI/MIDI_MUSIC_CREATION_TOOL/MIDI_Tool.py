@@ -178,8 +178,8 @@ class Application:
 root = Tk()
 GUI = Application(root)
 #root.geometry('800x700')
-mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
-#mid = MidiFile("D:\\Github\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+#mid = MidiFile("C:\\Users\\34892\OneDrive - Samtec\\Documents\\GitHub\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
+mid = MidiFile("D:\\Github\\64-Stepper-Motor-Controller\\CODE\\GUI\\MIDI_MUSIC_CREATION_TOOL\\test.mid")
 
 # nothing = input("")
 root.resizable(False, False)

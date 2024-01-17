@@ -93,6 +93,35 @@ void changeBoxColor(uint8_t box_x, uint8_t box_y, uint32_t color)
     leds.show();
 }
 
+void changeBoxPixelColor(uint8_t box_x, uint8_t box_y, uint8_t noteNumber, uint32_t color)
+{
+    if(box_x > boxRows || box_y > boxColumns) 
+    {
+        Serial.println("changeBoxColor() outside maximum matrix size.");
+        return;
+    }
+    uint8_t actual_x = (box_x - 1) * 2;
+    uint8_t actual_y = (box_y - 1) * 2;
+
+
+    switch(noteNumber)
+    {
+        case 0:
+            leds.setPixel(gridToLed(actual_x, actual_y), color);
+        break;
+        case 1:
+            leds.setPixel(gridToLed(actual_x+1, actual_y), color);
+        break;
+        case 2:
+            leds.setPixel(gridToLed(actual_x, actual_y+1), color);
+        break;
+        case 3:
+            leds.setPixel(gridToLed(actual_x+1, actual_y+1), color);
+        break;
+    }
+    leds.show();
+}
+
 void changeSegmentColor(uint8_t x, uint8_t y, uint32_t color)
 {
     if(x > boxRows || y > boxColumns) 
