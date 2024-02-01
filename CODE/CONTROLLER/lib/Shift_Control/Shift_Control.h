@@ -9,7 +9,8 @@
 #include "Pinout.h"
 #include "pitches.h"
 
-#define DEBUG 1
+#define DEBUG 1     // TODO Change all iterables within your control to start at 0 instead of 1. Arrays start at 0, dummy.
+                    // TODO Examples: cardNumber and motorNum
 
 class Card
 {
@@ -54,7 +55,7 @@ class Card
             _cardNumber(cardNumber),
             _boardNumber(boardNumber)
         {
-        // Constructor for a single card containing 8 motors. All shift register work is done here.
+        // Constructor for a single card containing 8 motors. All shift register work is done here. card number ranges from 0-3.
             if(cardNumber > 4 || !cardNumber) 
             {
                 !DEBUG ? true : Serial.println("The Card Number entered for the Instantiation of Card class is out of range.");
@@ -181,7 +182,7 @@ class Card
             }
         }
 
-        void changeDirection(uint8_t motorNum, bool direction)
+        void changeDirection(uint8_t motorNum, bool direction) // TODO Where can this be used? Currently not.
         {
             if (direction)
             {
@@ -192,7 +193,7 @@ class Card
             }
         }
 
-        uint8_t checkMicrostep(uint8_t microStep, byte note)
+        uint8_t checkMicrostep(uint8_t microStep, byte note) // TODO Update to account for 'overtone' notes
         {
             
             for(; microStep < 6; microStep++)
@@ -332,33 +333,35 @@ class ControlBoard
 
             uint8_t noteNumber = 0;
 
-            if (velocity > 0)
+            if (velocity > 0) // Note on event
             {
-                !DEBUG ? true : Serial.println();
                 for(; noteNumber<4; noteNumber++)
                 {
-                    if (Cards[cardNumber].motorState[motorNumber-1][noteNumber] == 0)
+                    // Find a noteNumber on a motor than is not currently in use
+                    if (Cards[cardNumber].motorState[motorNumber][noteNumber] == 0)
                     {
-                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = note;
+                        Cards[cardNumber].motorState[motorNumber][noteNumber] = note;
                         Cards[cardNumber].enableMotor(motorNumber);
                         break;
                     }
                 }
-            } else {
+            } else { // Note off event
                 for(;noteNumber < 4; noteNumber++)
                 {
-                    if(Cards[cardNumber].motorState[motorNumber-1][noteNumber] == note)
+                    // Find the noteNumber on a motor that is currently playing the same notOff command
+                    if(Cards[cardNumber].motorState[motorNumber][noteNumber] == note)
                     {
-                        Cards[cardNumber].motorState[motorNumber-1][noteNumber] = 0;
-                        // Cards[cardNumber].disableMotor(motorNumber);
+                        Cards[cardNumber].motorState[motorNumber][noteNumber] = 0;
                         break;
                     }
                 }
-                if(
-                    Cards[cardNumber].motorState[motorNumber-1][0] == 0 &&
-                    Cards[cardNumber].motorState[motorNumber-1][1] == 0 &&
-                    Cards[cardNumber].motorState[motorNumber-1][2] == 0 &&
-                    Cards[cardNumber].motorState[motorNumber-1][3] == 0
+
+                if 
+                (
+                    Cards[cardNumber].motorState[motorNumber][0] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber][1] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber][2] == 0 &&
+                    Cards[cardNumber].motorState[motorNumber][3] == 0
                 )
                 {
                     Cards[cardNumber].disableMotor(motorNumber);
@@ -445,26 +448,95 @@ class MainControl
             }
         }
 
-        void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity)
+        void midiEvent(uint8_t channel, uint8_t note, uint8_t velocity, uint8_t cable)
         {
+            // 8x8 grid of stepper motors. 4 'cables', each containing 16 MIDI channels will controll all 64 motors.
+            // Maximum of 4 notes per motor (MIDI channel), ending up with 256 individual voices.
+            // Each 'cable' will be divided into 2 horizontal rows each like below.
+            //* 4 4 4 4 4 4 4 4
+            //* 4 4 4 4 4 4 4 4
+            //* 3 3 3 3 3 3 3 3
+            //* 3 3 3 3 3 3 3 3
+            //* 2 2 2 2 2 2 2 2
+            //* 2 2 2 2 2 2 2 2
+            //* 1 1 1 1 1 1 1 1
+            //* 1 1 1 1 1 1 1 1
+
+            // Each 'cable' containing 16 channels will be divided like below.
+            //* 9 10 11 12 13 14 15 16
+            //* 1  2  3  4  5  6  7  8
+
+            // Keep in mind that these are listed as how the are represented by MIDI data, so data starts at 1.
+            // All data that is translated to x, y coordinates are adjusted to start at 0, just as arrays do. See below layouts.
+
+            // Digital 'Cable' Layout:
+            //* 8  9 10 11 12 13 14 15
+            //* 0  1  2  3  4  5  6  7 -- Cable 4
+            //* 8  9 10 11 12 13 14 15
+            //* 0  1  2  3  4  5  6  7 -- Cable 3
+            //* 8  9 10 11 12 13 14 15
+            //* 0  1  2  3  4  5  6  7 -- Cable 2
+            //* 8  9 10 11 12 13 14 15
+            //* 0  1  2  3  4  5  6  7 -- Cable 1
+
+            // Board Wiring Layout: //? Subject to change as it is physically wired
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+            //* 0 0 0 0 1 1 1 1
+
+            // Card Wiring Layout (Per Board): //? Subject to change as it is physically wired
+            //* 3 3 3 3
+            //* 3 3 3 3
+            //* 2 2 2 2
+            //* 2 2 2 2
+            //* 1 1 1 1
+            //* 1 1 1 1
+            //* 0 0 0 0
+            //* 0 0 0 0
+
+            // Motor Layout (Per Card): //? Subject to change as it is physically wired
+            //* 0 1 2 3
+            //* 4 5 6 7
+
+            // General Motor Number Layout: //? Subject to change as it is physically wired
+            //* 57 58 59 60 61 62 63 64
+            //* 49 50 51 52 53 54 55 56
+            //* 41 42 43 44 45 46 47 48
+            //* 33 34 35 36 37 38 39 40
+            //* 25 26 27 28 29 30 31 32
+            //* 17 18 19 20 21 22 23 24
+            //*  9 10 11 12 13 14 15 16
+            //*  1  2  3  4  5  6  7  8
+
             uint8_t x = (channel-1) % 8;
-            uint8_t y = channel > 8 ? 1 : 0;
+            uint8_t y = (cable-1) * 2 + (channel > 8 ? 1 : 0);
 
-            //! temporary
-            !DEBUG ? true : Serial.print("Card: ");
-            !DEBUG ? true : Serial.println(channel > 8 ? 1 : 0);
-            !DEBUG ? true : Serial.print("Motor on Card: ");
-            !DEBUG ? true : Serial.println(((channel-1)%8)+1);
-            BoardTwo.midiEvent(channel > 8 ? 1 : 0,((channel-1)%8)+1, note, velocity);
+            // Old method (no 'cables')
+            // uint8_t x = (channel-1) % 8;
+            // uint8_t y = channel > 8 ? 1 : 0;
 
-            // (gridToCard(x, y) == 1)
-            // ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity)
-            // :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorNumber(x, y), note, velocity);
+            // temporary
+            // /!DEBUG ? true : Serial.print("Card: ");
+            // /!DEBUG ? true : Serial.println(channel > 8 ? 1 : 0);
+            // /!DEBUG ? true : Serial.print("Motor on Card: ");
+            // /!DEBUG ? true : Serial.println(((channel-1)%8)+1);
+            // BoardTwo.midiEvent(channel > 8 ? 1 : 0,((channel-1)%8)+1, note, velocity);
+
+            (gridToBoard(x, y) == 1)
+            ?   BoardOne.midiEvent(gridToCard(x, y), gridToMotorInCard(x, y), note, velocity)
+            :   BoardTwo.midiEvent(gridToCard(x, y), gridToMotorInCard(x, y), note, velocity);
         }
+
+    private:
 
         uint8_t gridToBoard(uint8_t x, uint8_t y)
         {
-            return (x > 3) + 1;
+            return uint8_t(x > 3);
         }
 
         uint8_t gridToCard(uint8_t x, uint8_t y)
@@ -474,11 +546,11 @@ class MainControl
 
         uint8_t gridToMotorInCard(uint8_t x, uint8_t y)
         {
-            return (y % 2 ? 0 : 4) + (x % 4) + 1;
+            return (y % 2 ? 0 : 4) + (x % 4) + 1; //! Fix
         }
 
         uint8_t gridToMotorNumber(uint8_t x, uint8_t y)
         {
-            return gridToCard(x, y) * 8 + gridToMotorInCard(x, y);
+            return gridToCard(x, y) * 8 + gridToMotorInCard(x, y); //! Fix - May not be needed
         }
 };

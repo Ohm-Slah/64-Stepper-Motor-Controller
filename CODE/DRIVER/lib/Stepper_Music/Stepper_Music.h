@@ -13,7 +13,7 @@
 #include <DAQ.h>
 #include <Pinout.h>
 
-#define DEBUG 1
+#define DEBUG 0
 
 int8_t pinArray[] = {
   A1STEP1, A2STEP1, A3STEP1, A4STEP1, A5STEP1, A6STEP1, A7STEP1, A8STEP1, 

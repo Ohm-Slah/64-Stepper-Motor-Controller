@@ -18,13 +18,13 @@ MainControl Control(1);
 void OnNoteOff(byte channel, byte note, byte velocity)
 {
     !DEBUG ? true : Serial.print("channel On: ");Serial.println(channel);
-    Control.midiEvent(channel, note, velocity);
+    Control.midiEvent(channel, note, velocity, usbMIDI.getCable());
 }
 
 void OnNoteOn(byte channel, byte note, byte velocity)
 {
     !DEBUG ? true : Serial.print("channel Off: ");Serial.println(channel);
-    Control.midiEvent(channel, note, velocity);
+    Control.midiEvent(channel, note, velocity, usbMIDI.getCable());
 }
 
 void OnControlChange(byte channel, byte number, byte value)
