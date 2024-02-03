@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "libraries")(type "KiCad")(uri "C:/Users/34892/Documents/GitHub/64-Stepper-Motor-Controller/PCB/LIBRARIES")(options "")(descr ""))
+)
